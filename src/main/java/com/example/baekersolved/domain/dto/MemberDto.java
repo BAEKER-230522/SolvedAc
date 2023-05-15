@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class MemberDto {
     private final Long id;
-
+    private final String BaekJoonName;
     private final int bronze;
     private final int silver;
     private final int gold;

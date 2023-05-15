@@ -30,30 +30,29 @@ public class SolvedApiScheduler {
     @Scheduled(cron = "${scheduler.cron.member}")
     public void checkMember() throws IOException, ParseException {
         log.info("스케줄러 실행 day of week = {}", LocalDate.now().getDayOfWeek());
-        RsData<List<Member>> memberList = memberService.getAll();
-        for (Member member : memberList.getData()) {
+        List<MemberDto> memberDtoList = solvedApiService.getMemberDtoList();
+        for (MemberDto member : memberDtoList) {
             try {
-                Long memberId = member.getId();
-                int Bronze = solvedApiService.getSolvedCount(memberId, 1, 6) - member.getBronze();
+                int Bronze = solvedApiService.getSolvedCount(member, 1, 6) - member.getBronze();
                 Thread.sleep(1000);
 
-                int Silver = solvedApiService.getSolvedCount(memberId, 6, 11) - member.getSliver();
+                int Silver = solvedApiService.getSolvedCount(member, 6, 11) - member.getSilver();
                 Thread.sleep(1000);
 
-                int Gold = solvedApiService.getSolvedCount(memberId, 11, 16) - member.getGold();
+                int Gold = solvedApiService.getSolvedCount(member, 11, 16) - member.getGold();
                 Thread.sleep(1000);
 
-                int Platinum = solvedApiService.getSolvedCount(memberId, 16, 21) - member.getPlatinum();
+                int Platinum = solvedApiService.getSolvedCount(member, 16, 21) - member.getPlatinum();
                 Thread.sleep(1000);
 
-                int Diamond = solvedApiService.getSolvedCount(memberId, 21, 26) - member.getDiamond();
+                int Diamond = solvedApiService.getSolvedCount(member, 21, 26) - member.getDiamond();
                 Thread.sleep(1000);
 
-                int Ruby = solvedApiService.getSolvedCount(memberId, 26, 31) - member.getRuby();
+                int Ruby = solvedApiService.getSolvedCount(member, 26, 31) - member.getRuby();
                 Thread.sleep(1000);
 
                 BaekJoonDto dto = new BaekJoonDto(Bronze, Silver, Gold, Platinum, Diamond, Ruby);
-                publisher.publishEvent(new BaekJoonEvent(this, member, dto));
+//                publisher.publishEvent(new BaekJoonEvent(this, member, dto));
 
             } catch (HttpClientErrorException | InterruptedException e) {
                 log.info("###############" + e + "###############");
@@ -63,14 +62,14 @@ public class SolvedApiScheduler {
 
     }
 
-    @Scheduled(cron = "${scheduler.cron.study}")
-    public void checkStudy() {
-        log.info("스터디 스케줄러 ");
-        List<StudyRule> studyRules = studyRuleService.getAll();
-        for (StudyRule studyRule : studyRules) {
-            Long studyRuleId = studyRule.getId();
-
-            publisher.publishEvent(new StudyEvent(this, studyRuleId));
-        }
-    }
+//    @Scheduled(cron = "${scheduler.cron.study}")
+//    public void checkStudy() {
+//        log.info("스터디 스케줄러 ");
+//        List<StudyRule> studyRules = studyRuleService.getAll();
+//        for (StudyRule studyRule : studyRules) {
+//            Long studyRuleId = studyRule.getId();
+//
+//            publisher.publishEvent(new StudyEvent(this, studyRuleId));
+//        }
+//    }
 }
