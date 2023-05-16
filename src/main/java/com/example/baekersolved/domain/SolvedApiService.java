@@ -26,7 +26,6 @@ import static com.example.baekersolved.address.Address.STUDYRULE_URL;
 public class SolvedApiService {
     private final SolvedApiManager solvedApiManager;
     private final ApplicationEventPublisher publisher;
-    private final RestTemplate restTemplate;
     private final List<MemberDto> memberDtoList;
     private final List<StudyRuleDto> studyRuleDtoList;
 
@@ -83,6 +82,7 @@ public class SolvedApiService {
      * member, studyrule 값 받아오기
      */
     public List<MemberDto> getMemberDtoList() throws ParseException {
+        RestTemplate restTemplate = new RestTemplate();
         String jsonStr = restTemplate.getForObject(MEMBER_URL, String.class); // Memeber api
         JSONParser jsonParser = new JSONParser();
         Object object = jsonParser.parse(jsonStr);

@@ -25,9 +25,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Slf4j
 @RequiredArgsConstructor
 public class BatchConfiguration {
-    private final JobBuilder jobBuilder;
 
-    private final JobRepository jobRepository;
     private final SolvedApiService solvedApiService;
 
     @Bean
