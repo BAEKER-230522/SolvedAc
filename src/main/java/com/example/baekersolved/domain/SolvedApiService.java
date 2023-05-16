@@ -87,13 +87,15 @@ public class SolvedApiService {
         JSONParser jsonParser = new JSONParser();
         Object object = jsonParser.parse(jsonStr);
 
-        for (Object o : (JSONArray) object) {
-            JSONObject jsonObject = (JSONObject) o;
+        JSONObject jsonObject = (JSONObject) object;
+        JSONArray jsonArray = (JSONArray) jsonObject.get("data");
+        for (Object o :  jsonArray) {
+            JSONObject parseJson = (JSONObject) o;
             MemberDto memberDto = new MemberDto(
-                    (Long) jsonObject.get("id"), (String) jsonObject.get("baekJoonName"),
-                    (int) jsonObject.get("bronze"), (int) jsonObject.get("silver"),
-                    (int) jsonObject.get("gold"), (int) jsonObject.get("platinum"),
-                    (int) jsonObject.get("diamond"), (int) jsonObject.get("ruby"));
+                    (Long) parseJson.get("id"), (String) parseJson.get("baekJoonName"),
+                    (int) parseJson.get("bronze"), (int) parseJson.get("silver"),
+                    (int) parseJson.get("gold"), (int) parseJson.get("platinum"),
+                    (int) parseJson.get("diamond"), (int) parseJson.get("ruby"));
             memberDtoList.add(memberDto);
         }
         return memberDtoList;
