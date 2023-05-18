@@ -33,7 +33,7 @@ public class BatchScheduler {
     public void runJob() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, ParseException {
         JobParameters jobParameters = new JobParameters();
         System.out.println("스케줄링 하는중임");
-        jobLauncher.run(batchConfiguration.testJob(jobRepository, batchConfiguration.testStep(jobRepository,tasklet , transactionManager)),
+        jobLauncher.run(batchConfiguration.testJob(jobRepository, batchConfiguration.stepSolved(jobRepository,tasklet , transactionManager)),
                 new JobParametersBuilder().addDate("date", new Date()).toJobParameters());
     }
 }

@@ -36,13 +36,13 @@ public class BatchConfiguration {
     private final ApplicationEventPublisher publisher;
 
     @Bean
-    public Job testJob(JobRepository jobRepository, Step step) {
+    public Job testJob(JobRepository jobRepository, Step stepSolved) {
         return new JobBuilder("solved", jobRepository)
-                .start(step)
+                .start(stepSolved)
                 .build();
     }
     @Bean
-    public Step testStep(JobRepository jobRepository, Tasklet tasklet, PlatformTransactionManager transactionManager) {
+    public Step stepSolved(JobRepository jobRepository, Tasklet tasklet, PlatformTransactionManager transactionManager) {
         return new StepBuilder("step1", jobRepository)
                 .tasklet(tasklet, transactionManager).build();
     }

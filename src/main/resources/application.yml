@@ -8,14 +8,18 @@ spring:
     job:
       name: ${job.name:NONE}
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/solved?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
-    username: root #ENC(MrlF9UZUaHufCgWLRE3ipQ==)
-    password: 1234 #ENC(dhw6nRBS+50xHhqPVFnZdw==)
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/solved?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
+#    username: root #ENC(MrlF9UZUaHufCgWLRE3ipQ==)
+#    password: 1234 #ENC(dhw6nRBS+50xHhqPVFnZdw==)
+
+message:
+  topic:
+    name: "exam"
+
 
 scheduler:
   cron:
     member: "0 */3 * * * *"
     study: "0 */5 * * * *"
-    pull: "0 */2 * * * *"
