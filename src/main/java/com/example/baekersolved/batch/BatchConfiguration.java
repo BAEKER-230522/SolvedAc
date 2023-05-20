@@ -5,6 +5,7 @@ import com.example.baekersolved.domain.dto.BaekJoonDto;
 import com.example.baekersolved.domain.dto.MemberDto;
 import com.example.baekersolved.domain.dto.RsData;
 import com.example.baekersolved.kafka.KafkaController;
+import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -34,8 +35,7 @@ import java.util.Optional;
 public class BatchConfiguration {
 
     private final SolvedApiService solvedApiService;
-    private final ApplicationEventPublisher publisher;
-    private final KafkaController kafkaController;
+    private final KafkaProducer producer;
 
     @Bean
     public Job testJob(JobRepository jobRepository, Step stepSolved) {
@@ -81,7 +81,7 @@ public class BatchConfiguration {
 
                     BaekJoonDto dto = new BaekJoonDto(bronze , Silver, Gold, Platinum, Diamond, Ruby);
                     MemberDto updateDto = new MemberDto(member, dto);
-                    .sendMessage(updateDto);
+                    producer.sendMessage(updateDto);
                 } catch (NullPointerException e) {
                     log.info("###############" + e + "###############");
                     e.printStackTrace();
