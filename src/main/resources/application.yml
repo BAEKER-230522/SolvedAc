@@ -7,6 +7,8 @@ spring:
   batch:
     job:
       name: ${job.name:NONE}
+    jdbc:
+      initialize-schema: always
 
 
 message:

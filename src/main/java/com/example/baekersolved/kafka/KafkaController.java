@@ -17,7 +17,7 @@ public class KafkaController {
     private final KafkaProducer producer;
 
     @Autowired
-    private KafkaTemplate<String ,MemberDto> kafkaTemplate;
+    private KafkaTemplate<String ,Object> kafkaTemplate;
 
     @Autowired
     KafkaController(KafkaProducer producer){
