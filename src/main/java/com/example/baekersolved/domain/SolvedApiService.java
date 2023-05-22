@@ -23,7 +23,7 @@ import static com.example.baekersolved.address.Address.MEMBER_URL;
 import static com.example.baekersolved.address.Address.STUDYRULE_URL;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SolvedApiService {
     private final SolvedApiManager solvedApiManager;
@@ -79,7 +79,7 @@ public class SolvedApiService {
     /**
      * 회원가입시 사용자 체크
      */
-    public boolean findUser(String studyId) throws IOException, ParseException {
+    public boolean checkUser(String studyId) throws IOException, ParseException {
         try {
             String check = solvedApiManager.findUser(studyId);
         } catch (HttpClientErrorException e) {
