@@ -16,7 +16,7 @@ public class SolvedApiController {
 
     @GetMapping("/api/solved/v1/valid")
     public String checkBaekJoonName(@RequestBody String baekJoonName) throws IOException, ParseException {
-        if (solvedApiService.checkUser(baekJoonName)) {
+        if (solvedApiService.isUser(baekJoonName)) {
             return "S-1";
         }
         return "F-1";

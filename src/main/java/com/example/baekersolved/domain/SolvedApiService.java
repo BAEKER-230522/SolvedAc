@@ -79,7 +79,7 @@ public class SolvedApiService {
     /**
      * 회원가입시 사용자 체크
      */
-    public boolean checkUser(String studyId) throws IOException, ParseException {
+    public boolean isUser(String studyId) throws IOException, ParseException {
         try {
             String check = solvedApiManager.findUser(studyId);
         } catch (HttpClientErrorException e) {

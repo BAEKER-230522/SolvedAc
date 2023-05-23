@@ -1,22 +1,6 @@
 spring:
   application:
-    name: config-dev
+    name: config-solved-dev
   config:
     import: optional:configserver:http://ec2-3-39-24-149.ap-northeast-2.compute.amazonaws.com:8080
 
-  batch:
-    job:
-      name: ${job.name:NONE}
-    jdbc:
-      initialize-schema: always
-
-
-message:
-  topic:
-    name: "solved"
-
-
-scheduler:
-  cron:
-    member: "0 */3 * * * *"
-    study: "0 */5 * * * *"
