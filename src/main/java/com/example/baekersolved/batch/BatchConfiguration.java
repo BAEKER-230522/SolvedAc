@@ -8,6 +8,8 @@ import com.example.baekersolved.kafka.KafkaController;
 import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.configuration.annotation.JobScope;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.json.simple.parser.ParseException;
 import org.springframework.batch.core.Job;
@@ -38,18 +40,20 @@ public class BatchConfiguration {
     private final KafkaProducer producer;
 
     @Bean
-    public Job testJob(JobRepository jobRepository, Step stepSolved) {
+    public Job solvedJob(JobRepository jobRepository, Step solvedStep) {
         return new JobBuilder("solved", jobRepository)
-                .start(stepSolved)
+                .start(solvedStep)
                 .build();
     }
     @Bean
-    public Step stepSolved(JobRepository jobRepository, Tasklet tasklet, PlatformTransactionManager transactionManager) {
+    @JobScope
+    public Step solvedStep(JobRepository jobRepository, Tasklet tasklet, PlatformTransactionManager transactionManager) {
         return new StepBuilder("step1", jobRepository)
                 .tasklet(tasklet, transactionManager).build();
     }
 
     @Bean
+    @StepScope
     public Tasklet tasklet() {
         return ((contribution, chunkContext) -> {
             System.out.println("멤버별 solved count 테스크렛");
