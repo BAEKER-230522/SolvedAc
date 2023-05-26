@@ -23,11 +23,16 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +44,11 @@ public class BatchConfiguration {
     private final SolvedApiService solvedApiService;
     private final KafkaProducer producer;
 
+
     @Bean
     public Job solvedJob(JobRepository jobRepository, Step solvedStep) {
         return new JobBuilder("solved", jobRepository)
+                .incrementer(new RunIdIncrementer())
                 .start(solvedStep)
                 .build();
     }

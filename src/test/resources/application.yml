@@ -1,12 +1,12 @@
-spring:
-  application:
-    name: config-view-test
-  config:
-    import: optional:configserver:http://ec2-3-39-24-149.ap-northeast-2.compute.amazonaws.com:8080
-
-
-
-scheduler:
-  cron:
-    member: "* * * * * *"
-    study: "* * * * * *"
+#spring:
+#  application:
+#    name: config-view-test
+#  config:
+#    import: optional:configserver:http://ec2-3-39-24-149.ap-northeast-2.compute.amazonaws.com:8080
+#
+#
+#
+#scheduler:
+#  cron:
+#    member: "* * * * * *"
+#    study: "* * * * * *"

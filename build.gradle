@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.6'
+	id 'org.springframework.boot' version '3.0.5'
 	id 'io.spring.dependency-management' version '1.1.0'
 }
 
@@ -13,9 +13,9 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
-ext {
-	set('springCloudVersion', "2022.0.2")
-}
+//ext {
+//	set('springCloudVersion', "2022.0.2")
+//}
 
 
 repositories {
@@ -43,7 +43,7 @@ dependencies {
 	// validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	// 스케줄링
+	// batch
 	implementation("org.springframework.boot:spring-boot-starter-batch")
 	implementation("org.springframework.boot:spring-boot-starter-quartz")
 	testImplementation 'org.awaitility:awaitility:4.2.0'
@@ -68,8 +68,8 @@ jar{
 	enabled = false
 }
 
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
-}
+//dependencyManagement {
+//	imports {
+//		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+//	}
+//}
