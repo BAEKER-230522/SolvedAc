@@ -25,15 +25,14 @@ public class BatchScheduler {
     private final JobLauncher jobLauncher;
     private final BatchConfiguration batchConfiguration;
     private final JobRepository jobRepository;
-    private final PlatformTransactionManager transactionManager;
-    private final Tasklet tasklet;
+
 
 
     @Scheduled(cron = "${scheduler.cron.member}")
     public void runJob() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, ParseException {
         JobParameters jobParameters = new JobParameters();
         System.out.println("스케줄링 하는중임");
-        jobLauncher.run(batchConfiguration.solvedJob(jobRepository, batchConfiguration.solvedStep(jobRepository, tasklet, transactionManager)),
+        jobLauncher.run(batchConfiguration.solvedJob(jobRepository, batchConfiguration.solvedStep(jobRepository)),
                 new JobParametersBuilder().addDate("date", new Date()).toJobParameters());
     }
 }

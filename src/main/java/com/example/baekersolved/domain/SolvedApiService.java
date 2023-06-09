@@ -4,7 +4,9 @@ import com.example.baekersolved.domain.dto.BaekJoonDto;
 import com.example.baekersolved.domain.dto.MemberDto;
 import com.example.baekersolved.domain.dto.RsData;
 import com.example.baekersolved.domain.dto.StudyRuleDto;
+import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,11 +27,12 @@ import static com.example.baekersolved.address.Address.STUDYRULE_URL;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class SolvedApiService {
     private final SolvedApiManager solvedApiManager;
     private final ApplicationEventPublisher publisher;
     private final List<MemberDto> memberDtoList;
-    private final List<StudyRuleDto> studyRuleDtoList;
+    private final KafkaProducer kafkaProducer;
 
     /**
      * 난이도별 체크 후 문제풀이 수 리턴
@@ -55,26 +58,29 @@ public class SolvedApiService {
     }
 
 
+
     /**
-     * 수동으로 본인 기록 업데이트
+     * 최초 로그인 시 업데이트
      */
-//    public void getSolvedCount(MemberDto member) throws IOException, ParseException {
-//
-//        int Bronze = getSolvedCount(member, 1, 6) - member.getBronze();
-//
-//        int Silver = getSolvedCount(member, 6, 11) - member.getSilver();
-//
-//        int Gold = getSolvedCount(member, 11, 16) - member.getGold();
-//
-//        int Platinum = getSolvedCount(member, 16, 21) - member.getPlatinum();
-//
-//        int Diamond = getSolvedCount(member, 21, 26) - member.getDiamond();
-//
-//        int Ruby = getSolvedCount(member, 26, 31) - member.getRuby();
-//
-//        BaekJoonDto dto = new BaekJoonDto(Bronze, Silver, Gold, Platinum, Diamond, Ruby);
-////        publisher.publishEvent(new BaekJoonEvent(this, member, dto));
-//    }
+    public void getSolvedCount(MemberDto member) throws IOException, ParseException {
+        Optional<Integer> Bronze = getSolvedCount(member, 1, 6);
+        if (Bronze.get() != -1) {
+            int bronze = Bronze.get();
+            int Silver = getSolvedCount(member, 6, 11).get();
+
+            int Gold = getSolvedCount(member, 11, 16).get();
+
+            int Platinum = getSolvedCount(member, 16, 21).get();
+
+            int Diamond = getSolvedCount(member, 21, 26).get();
+
+            int Ruby = getSolvedCount(member, 26, 31).get();
+
+            BaekJoonDto dto = new BaekJoonDto(bronze, Silver, Gold, Platinum, Diamond, Ruby);
+            MemberDto memberDto = new MemberDto(member, dto);
+            kafkaProducer.sendMessage(memberDto);
+        }
+    }
 
     /**
      * 회원가입시 사용자 체크
@@ -99,7 +105,7 @@ public class SolvedApiService {
 
         JSONObject jsonObject = (JSONObject) object;
         JSONArray jsonArray = (JSONArray) jsonObject.get("data");
-        for (Object o :  jsonArray) {
+        for (Object o : jsonArray) {
             JSONObject parseJson = (JSONObject) o;
             MemberDto memberDto = new MemberDto(
                     (Long) parseJson.get("id"), (String) parseJson.get("baekJoonName"),
@@ -108,7 +114,7 @@ public class SolvedApiService {
                     (int) parseJson.get("diamond"), (int) parseJson.get("ruby"));
             memberDtoList.add(memberDto);
         }
-        return RsData.of("S-1","회원데이터", memberDtoList);
+        return RsData.of("S-1", "회원데이터", memberDtoList);
     }
 
 //    public List<StudyRuleDto> getStudyRuleDtoList() {

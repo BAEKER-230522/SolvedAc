@@ -31,6 +31,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -43,20 +44,21 @@ public class BatchConfiguration {
 
     private final SolvedApiService solvedApiService;
     private final KafkaProducer producer;
+    private final PlatformTransactionManager transactionManager;
 
 
     @Bean
     public Job solvedJob(JobRepository jobRepository, Step solvedStep) {
         return new JobBuilder("solved", jobRepository)
                 .incrementer(new RunIdIncrementer())
-                .start(solvedStep)
+                .start(solvedStep(jobRepository))
                 .build();
     }
     @Bean
     @JobScope
-    public Step solvedStep(JobRepository jobRepository, Tasklet tasklet, PlatformTransactionManager transactionManager) {
+    public Step solvedStep(JobRepository jobRepository) {
         return new StepBuilder("step1", jobRepository)
-                .tasklet(tasklet, transactionManager).build();
+                .tasklet(tasklet(), transactionManager).build();
     }
 
     @Bean
@@ -93,9 +95,8 @@ public class BatchConfiguration {
                     BaekJoonDto dto = new BaekJoonDto(bronze , Silver, Gold, Platinum, Diamond, Ruby);
                     MemberDto updateDto = new MemberDto(member, dto);
                     producer.sendMessage(updateDto);
-                } catch (NullPointerException e) {
-                    log.info("###############" + e + "###############");
-                    e.printStackTrace();
+                } catch (NullPointerException | HttpClientErrorException | InterruptedException e) {
+                    log.error("###############" + e.getMessage() + "###############");
                 }
             }
             return RepeatStatus.FINISHED;

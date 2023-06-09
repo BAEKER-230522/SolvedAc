@@ -1,0 +1,36 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(kP70B7pgHyMUq+ktxo0RVUNgfN4xFBpXoRGIUsOj9/y7cNVzOPE83jZp52k35giaAKx8f8vXCDxbTOU/1uLO89kUDCtoma7dfybxmZIDk9ueBmyCQS4xcdtVFsnG+HEp3wcQjJ5TyenMpPf+Ms6BIQeSITBgj8msN6yy9A1c35GjO92/sSbIQ+OggtYyhB5F)
+    username: ENC(plDde76MscNwKMt9v4A6Rw==)
+    password: ENC(OH+qshDPtFh1h1gDdWExzz/t0BlOzVbo)
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+logging.level:
+  org.hibernate:
+    SQL: debug
+    orm.jdbc.bind: warn
+
+scheduler:
+  cron:
+    member: "0 0 18 * * *"
+    study: "0 0 19 * * *"
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: # 실제 유레카클라이언트 주소
