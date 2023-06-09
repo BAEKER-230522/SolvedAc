@@ -22,6 +22,12 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class KafkaConsumer {
     private final SolvedApiService service;
+
+    /**
+     * topic : member 값 받아옴(회원가입시)
+     * @param message
+     * @throws IOException
+     */
     @KafkaListener(topics = "${message.topic.member}", groupId = ConsumerConfig.GROUP_ID_CONFIG)
     public void consume(String message) throws IOException {
         log.info("message : {}", message);

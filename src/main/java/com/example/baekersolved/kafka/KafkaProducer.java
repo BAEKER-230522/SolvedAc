@@ -13,6 +13,9 @@ import java.util.List;
 @Transactional
 public class KafkaProducer {
 
+    /**
+     * sovled-member 토픽에 전달
+     */
     @Value(value = "${message.topic.name}")
     private String topicName;
 

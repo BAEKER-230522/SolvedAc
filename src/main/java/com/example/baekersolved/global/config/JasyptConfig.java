@@ -1,4 +1,4 @@
-package com.example.baekersolved;
+package com.example.baekersolved.global.config;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.jasypt.encryption.StringEncryptor;

@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -40,6 +41,7 @@ import java.util.Optional;
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class BatchConfiguration {
 
     private final SolvedApiService solvedApiService;
