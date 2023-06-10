@@ -22,11 +22,6 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
-  mysql:
-    image: 'mysql:latest'
-    container_name: mysql
-    ports:
-      - '3306:3306'
 
 volumes:
   zookeeper_data:

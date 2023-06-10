@@ -13,6 +13,14 @@ on:  # 우선 main 브랜치만 설정 했지만 dev 브랜치 하나 생성(건
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: 1234
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
 
@@ -25,7 +33,14 @@ jobs:
         run: |
           docker volume create zookeeper_data && docker volume create kafka_data
           docker-compose up -d
+#          mysql 설정
+      - name: Check out repository code
+        uses: actions/checkout@v2
 
+      - name: Verify MySQL connection
+        run: |
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port 3306 -uroot -ppassword -e "SHOW DATABASES"
       # 캐싱 부분 추가  ( 테스트 속도 향상)
       - name: Cache Gradle packages
         uses: actions/cache@v2

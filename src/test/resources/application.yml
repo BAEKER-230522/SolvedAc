@@ -1,0 +1,49 @@
+spring:
+  batch:
+    jdbc:
+      initialize-schema: always
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: solved
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      linger:
+        ms: 10
+  sql:
+    init:
+      data-locations: schema-test.sql
+
+
+
+logging.level:
+  org.hibernate:
+    SQL: debug
+    orm.jdbc.bind: trace
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
+
+
+
+message:
+  topic:
+    member: "member"
+    name: "solved-member"
+
+
+scheduler:
+  cron:
+    member: "0 */3 * * * *"
+    study: "0 */5 * * * *"
