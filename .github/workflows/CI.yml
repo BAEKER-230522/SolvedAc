@@ -25,13 +25,7 @@ jobs:
         run: |
           docker volume create zookeeper_data && docker volume create kafka_data
           docker-compose up -d
-      - name: Setup MySQL
-        uses: samin/mysql-action@v1
-        with:
-          character set server: 'utf8'
-          mysql database: goodjob
-          mysql user: root
-          mysql password: 1234
+
       # 캐싱 부분 추가  ( 테스트 속도 향상)
       - name: Cache Gradle packages
         uses: actions/cache@v2
