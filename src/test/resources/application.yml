@@ -1,11 +1,12 @@
 spring:
-  config:
-    activate:
-      on-profile: test
+  batch:
+    jdbc:
+      initialize-schema: always
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa
     password:
+
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -18,6 +19,9 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       linger:
         ms: 10
+  sql:
+    init:
+      data-locations: schema-test.sql
 
 
 
