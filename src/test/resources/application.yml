@@ -6,7 +6,6 @@ spring:
     url: jdbc:h2:mem:testdb
     username: sa
     password:
-
   kafka:
     bootstrap-servers: localhost:9092
     consumer:

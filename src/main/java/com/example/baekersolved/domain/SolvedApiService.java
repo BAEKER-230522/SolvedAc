@@ -30,7 +30,6 @@ import static com.example.baekersolved.address.Address.STUDYRULE_URL;
 @Slf4j
 public class SolvedApiService {
     private final SolvedApiManager solvedApiManager;
-    private final ApplicationEventPublisher publisher;
     private final List<MemberDto> memberDtoList;
     private final KafkaProducer kafkaProducer;
 

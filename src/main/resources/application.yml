@@ -1,6 +1,11 @@
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: path_pattern_parser
+  application:
+    name: solved
   profiles:
-    default:
+    default: dev
   batch:
     jdbc:
       initialize-schema: always

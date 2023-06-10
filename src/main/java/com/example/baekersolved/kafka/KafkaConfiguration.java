@@ -1,6 +1,7 @@
 package com.example.baekersolved.kafka;
 
 import com.example.baekersolved.domain.dto.MemberDto;
+import jakarta.annotation.PostConstruct;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -18,14 +20,15 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-@EnableKafka
 @Component
 public class KafkaConfiguration {
 
-    @Value("${spring.kafka.bootstrap-servers}")
+//    @Value("${spring.kafka.bootstrap-servers}")
+    @Value("#{environment['spring.kafka.bootstrap-servers']}")
     private String bootstrapServers;
 
-    @Value("${spring.kafka.producer.linger.ms}")
+//    @Value("${spring.kafka.producer.linger.ms}")
+    @Value("#{environment['spring.kafka.producer.linger.ms']}")
     private String linger;
 
 
@@ -35,7 +38,7 @@ public class KafkaConfiguration {
 
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, MemberDtoSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         props.put(ProducerConfig.LINGER_MS_CONFIG, linger);
 
         return props;
@@ -71,6 +74,4 @@ public class KafkaConfiguration {
     public KafkaTemplate<String, Object> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
-
-
 }
