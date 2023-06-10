@@ -37,10 +37,10 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Verify MySQL connection
-        run: |
-          sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port 3306 -uroot -ppassword -e "SHOW DATABASES"
+#      - name: Verify MySQL connection
+#        run: |
+#          sudo apt-get install -y mysql-client
+#          mysql --host 127.0.0.1 --port 3306 -uroot -ppassword -e "SHOW DATABASES"
       # 캐싱 부분 추가  ( 테스트 속도 향상)
       - name: Cache Gradle packages
         uses: actions/cache@v2
