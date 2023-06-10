@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-@Component
 public class KafkaConfiguration {
 
 //    @Value("${spring.kafka.bootstrap-servers}")
