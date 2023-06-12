@@ -1,9 +1,11 @@
 package com.example.baekersolved.domain;
 
+import com.example.baekersolved.domain.api.feign.StudyRuleFeign;
 import com.example.baekersolved.domain.dto.BaekJoonDto;
 import com.example.baekersolved.domain.dto.MemberDto;
 import com.example.baekersolved.domain.dto.RsData;
-import com.example.baekersolved.domain.dto.StudyRuleDto;
+import com.example.baekersolved.domain.dto.StudyRuleConsumeDto;
+import com.example.baekersolved.exception.NotFoundException;
 import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +13,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.baekersolved.address.Address.MEMBER_URL;
-import static com.example.baekersolved.address.Address.STUDYRULE_URL;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,6 +32,7 @@ public class SolvedApiService {
     private final SolvedApiManager solvedApiManager;
     private final List<MemberDto> memberDtoList;
     private final KafkaProducer kafkaProducer;
+    private final StudyRuleFeign studyRuleFeign;
 
     /**
      * 난이도별 체크 후 문제풀이 수 리턴
@@ -114,6 +115,18 @@ public class SolvedApiService {
             memberDtoList.add(memberDto);
         }
         return RsData.of("S-1", "회원데이터", memberDtoList);
+    }
+
+
+    /**
+     * StudyRule Feign
+     */
+    public List<StudyRuleConsumeDto> getStudyRule() {
+        RsData<List<StudyRuleConsumeDto>> studyRule = studyRuleFeign.getStudyRule();
+        if (studyRule.isFail()) {
+            throw new NotFoundException("StudyRule 이 없습니다.");
+        }
+        return studyRule.getData();
     }
 
 //    public List<StudyRuleDto> getStudyRuleDtoList() {

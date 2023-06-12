@@ -1,3 +1,4 @@
+
 spring:
   mvc:
     pathmatch:
@@ -66,3 +67,5 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://127.0.0.1:8761/eureka/
+server:
+  port: 8084

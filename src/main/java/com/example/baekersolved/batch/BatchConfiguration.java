@@ -4,44 +4,32 @@ import com.example.baekersolved.domain.SolvedApiService;
 import com.example.baekersolved.domain.dto.BaekJoonDto;
 import com.example.baekersolved.domain.dto.MemberDto;
 import com.example.baekersolved.domain.dto.RsData;
-import com.example.baekersolved.kafka.KafkaController;
+import com.example.baekersolved.domain.dto.StudyRuleConsumeDto;
 import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
-import org.json.simple.parser.ParseException;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.client.HttpClientErrorException;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-@Component
 public class BatchConfiguration {
 
     private final SolvedApiService solvedApiService;
@@ -50,7 +38,7 @@ public class BatchConfiguration {
 
 
     @Bean
-    public Job solvedJob(JobRepository jobRepository, Step solvedStep) {
+    public Job solvedJob(JobRepository jobRepository) {
         return new JobBuilder("solved", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(solvedStep(jobRepository))
@@ -104,5 +92,43 @@ public class BatchConfiguration {
             return RepeatStatus.FINISHED;
         } );
     }
-}
 
+
+    @Bean
+    public Job studyJob(JobRepository repository) {
+        return new JobBuilder("StudyJob", repository)
+                .incrementer(new RunIdIncrementer())
+                .start(studyStep(repository))
+                .build();
+    }
+
+    @Bean
+    @JobScope
+    public Step studyStep(JobRepository repository) {
+        return new StepBuilder("StudyStep", repository)
+                .tasklet(studyTasklet(), transactionManager)
+                .build();
+    }
+
+    @Bean
+    @StepScope
+    public Tasklet studyTasklet() {
+        return (contribution, chunkContext) -> {
+            List<StudyRuleConsumeDto> dtoList = solvedApiService.getStudyRule();
+            for (StudyRuleConsumeDto dto : dtoList) {
+                Long studyRuleId = dto.ruleId();
+                Long ruleId = dto.ruleId();
+            }
+        }
+    }
+}
+//
+//    public void checkStudy() {
+//        log.info("스터디 스케줄러 ");
+//        List<StudyRule> studyRules = studyRuleService.getAll();
+//        for (StudyRule studyRule : studyRules) {
+//            Long studyRuleId = studyRule.getId();
+//
+//            publisher.publishEvent(new StudyEvent(this, studyRuleId));
+//        }
+//    }

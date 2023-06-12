@@ -1,4 +1,18 @@
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: path_pattern_parser
+  application:
+    name: solved-service
   config:
     activate:
       on-profile: dev
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/

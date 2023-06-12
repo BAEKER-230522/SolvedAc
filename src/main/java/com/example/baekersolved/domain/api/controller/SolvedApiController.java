@@ -1,4 +1,4 @@
-package com.example.baekersolved.domain.in;
+package com.example.baekersolved.domain.api.controller;
 
 import com.example.baekersolved.domain.SolvedApiService;
 import lombok.RequiredArgsConstructor;

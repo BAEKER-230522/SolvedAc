@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 
 @Configuration
-@Profile({"dev", "prod"})
 public class DataSourceConfig {
     @Bean
     public DataSourceInitializer dataSourceInitializer(@Qualifier("dataSource") final DataSource dataSource) {
