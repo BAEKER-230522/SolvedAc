@@ -78,7 +78,7 @@ public class SolvedApiService {
 
             BaekJoonDto dto = new BaekJoonDto(bronze, Silver, Gold, Platinum, Diamond, Ruby);
             MemberDto memberDto = new MemberDto(member, dto);
-            kafkaProducer.sendMessage(memberDto);
+            kafkaProducer.sendMember(memberDto);
         }
     }
 
