@@ -45,20 +45,6 @@ jasypt:
     bean: jasyptStringEncryptor
 
 
-
-
-message:
-  topic:
-    member: "member"
-    name: "solved-member"
-
-
-scheduler:
-  cron:
-    member: "0 */3 * * * *"
-    study: "0 */5 * * * *"
-
-
 eureka:
   instance:
     preferIpAddress: true
@@ -69,3 +55,18 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka/
 server:
   port: 8084
+
+
+
+
+message:
+  topic:
+    studyRule: "studyRule"
+    member: "member"
+    solved: "solved-member"
+
+
+scheduler:
+  cron:
+    member: "0 */3 * * * *"
+    study: "0 */5 * * * *"

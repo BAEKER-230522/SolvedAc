@@ -3,8 +3,10 @@ package com.example.baekersolved.batch;
 import com.example.baekersolved.domain.SolvedApiService;
 import com.example.baekersolved.domain.dto.BaekJoonDto;
 import com.example.baekersolved.domain.dto.MemberDto;
-import com.example.baekersolved.domain.dto.RsData;
-import com.example.baekersolved.domain.dto.StudyRuleConsumeDto;
+import com.example.baekersolved.domain.dto.response.RsData;
+import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
+import com.example.baekersolved.domain.dto.response.StudyRuleProduceDto;
+import com.example.baekersolved.domain.event.StudyEvent;
 import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +20,9 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -35,6 +37,7 @@ public class BatchConfiguration {
     private final SolvedApiService solvedApiService;
     private final KafkaProducer producer;
     private final PlatformTransactionManager transactionManager;
+    private final ApplicationEventPublisher publisher;
 
 
     @Bean
@@ -84,7 +87,7 @@ public class BatchConfiguration {
 
                     BaekJoonDto dto = new BaekJoonDto(bronze , Silver, Gold, Platinum, Diamond, Ruby);
                     MemberDto updateDto = new MemberDto(member, dto);
-                    producer.sendMessage(updateDto);
+                    producer.sendMember(updateDto);
                 } catch (NullPointerException | HttpClientErrorException | InterruptedException e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
@@ -117,18 +120,11 @@ public class BatchConfiguration {
             List<StudyRuleConsumeDto> dtoList = solvedApiService.getStudyRule();
             for (StudyRuleConsumeDto dto : dtoList) {
                 Long studyRuleId = dto.ruleId();
-                Long ruleId = dto.ruleId();
+
+                producer.sendStudy(new StudyRuleProduceDto(studyRuleId));
+                // studyRule ->
             }
-        }
+            return RepeatStatus.FINISHED;
+        };
     }
 }
-//
-//    public void checkStudy() {
-//        log.info("스터디 스케줄러 ");
-//        List<StudyRule> studyRules = studyRuleService.getAll();
-//        for (StudyRule studyRule : studyRules) {
-//            Long studyRuleId = studyRule.getId();
-//
-//            publisher.publishEvent(new StudyEvent(this, studyRuleId));
-//        }
-//    }

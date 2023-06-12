@@ -30,9 +30,14 @@ public class BatchScheduler {
 
     @Scheduled(cron = "${scheduler.cron.member}")
     public void runJob() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, ParseException {
-        JobParameters jobParameters = new JobParameters();
         System.out.println("스케줄링 하는중임");
         jobLauncher.run(batchConfiguration.solvedJob(jobRepository),
+                new JobParametersBuilder().addDate("date", new Date()).toJobParameters());
+    }
+
+    @Scheduled(cron = "${scheduler.cron.study}")
+    public void runStudy() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
+        jobLauncher.run(batchConfiguration.studyJob(jobRepository),
                 new JobParametersBuilder().addDate("date", new Date()).toJobParameters());
     }
 }

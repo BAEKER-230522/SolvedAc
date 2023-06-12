@@ -1,10 +1,9 @@
 package com.example.baekersolved.domain.api.feign;
 
 
-import com.example.baekersolved.domain.dto.RsData;
-import com.example.baekersolved.domain.dto.StudyRuleConsumeDto;
+import com.example.baekersolved.domain.dto.response.RsData;
+import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 

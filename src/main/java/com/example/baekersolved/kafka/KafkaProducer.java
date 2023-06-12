@@ -1,16 +1,12 @@
 package com.example.baekersolved.kafka;
 
 import com.example.baekersolved.domain.dto.MemberDto;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import com.example.baekersolved.domain.dto.response.StudyRuleProduceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -19,8 +15,11 @@ public class KafkaProducer {
     /**
      * sovled-member 토픽에 전달
      */
-    @Value(value = "${message.topic.name}")
-    private String topicName;
+    @Value(value = "${message.topic.solved}")
+    private String solvedMember;
+
+    @Value(value = "${message.topic.studyRule}")
+    private String studyRule;
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
@@ -29,8 +28,12 @@ public class KafkaProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(MemberDto memberDto) {
-        this.kafkaTemplate.send(topicName, memberDto);
+    public void sendMember(MemberDto memberDto) {
+        this.kafkaTemplate.send(solvedMember, memberDto);
+    }
+
+    public void sendStudy(StudyRuleProduceDto dto) {
+        this.kafkaTemplate.send(studyRule, dto);
     }
 }
 
