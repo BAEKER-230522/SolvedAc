@@ -28,7 +28,7 @@ public class KafkaController {
     @PostMapping("/send")
     public String sendMessage(@RequestParam MemberDto memberDto) {
         log.info("message : {}", memberDto.toString());
-        this.producer.sendMessage(memberDto);
+        this.producer.sendMember(memberDto);
         return "success";
     }
 }
