@@ -11,6 +11,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: 저장소 Checkout
         uses: actions/checkout@v2
@@ -20,6 +28,15 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
+      - name: Verify MySQL connection
+        run: |
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port 3306 -uroot -p${{ secrets.MYSQL_PASSWORD }} -e "CREATE DATABASE solved_table"
+
+      - name: kafka, zookeeper docker-run
+        run: |
+          docker volume create zookeeper_data && docker volume create kafka_data
+          docker-compose up -d
 
       - name: 스프링부트 애플리케이션 빌드 # (1)
         run: ./gradlew build -Pjasypt.encryptor.password=${{secrets.JASYPT_ENCRYPTOR_PASSWORD}}
