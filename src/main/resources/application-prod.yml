@@ -4,7 +4,7 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(kP70B7pgHyMUq+ktxo0RVUNgfN4xFBpXoRGIUsOj9/y7cNVzOPE83jZp52k35giaAKx8f8vXCDxbTOU/1uLO89kUDCtoma7dfybxmZIDk9ueBmyCQS4xcdtVFsnG+HEp3wcQjJ5TyenMpPf+Ms6BIQeSITBgj8msN6yy9A1c35GjO92/sSbIQ+OggtYyhB5F)
+    url: ENC(TVQLvKGo6QTT8JJVKkKTJkPLwfIdrBaBDS2V+ZqfDSSKrFpYULuonRpZVbCKs8e0ZSQSG7j0SrDLRJ1UZvvpCt0sdC+OsJV1gKhoioE6yqByOpf6U5iS92eKxhXAogK3DJ6nxUhDFsjDFLJMQIY3SQylSfk0qaL9zy1eJKFiSLaLvuea/zcrc0HgAqwSOvJu)
     username: ENC(plDde76MscNwKMt9v4A6Rw==)
     password: ENC(OH+qshDPtFh1h1gDdWExzz/t0BlOzVbo)
   kafka:
@@ -49,3 +49,4 @@ eureka:
 
 custom:
   server: ENC(0zWdK1NtpOSg0B/P5gqfGe+3WBULxDvm)
+
