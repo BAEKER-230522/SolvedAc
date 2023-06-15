@@ -34,8 +34,8 @@ public class KafkaConfiguration {
     @Bean
     public Map<String, Object> producerConfig(){
         Map<String, Object> props = new HashMap<>();
-
-//        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        System.out.println("이놈" + bootstrapServers);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         props.put(ProducerConfig.LINGER_MS_CONFIG, linger);
@@ -46,8 +46,8 @@ public class KafkaConfiguration {
     @Bean
     public ConsumerFactory<String, Object> consumerConfig() {
         Map<String, Object> props = new HashMap<>();
-
-//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        System.out.println("이놈2" + bootstrapServers);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props);
