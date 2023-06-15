@@ -7,6 +7,18 @@ spring:
     url: ENC(kP70B7pgHyMUq+ktxo0RVUNgfN4xFBpXoRGIUsOj9/y7cNVzOPE83jZp52k35giaAKx8f8vXCDxbTOU/1uLO89kUDCtoma7dfybxmZIDk9ueBmyCQS4xcdtVFsnG+HEp3wcQjJ5TyenMpPf+Ms6BIQeSITBgj8msN6yy9A1c35GjO92/sSbIQ+OggtYyhB5F)
     username: ENC(plDde76MscNwKMt9v4A6Rw==)
     password: ENC(OH+qshDPtFh1h1gDdWExzz/t0BlOzVbo)
+  kafka:
+    bootstrap-servers: ${custom.server}:9092
+    consumer:
+      group-id: solved
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      linger:
+        ms: 10
 
   jpa:
     hibernate:
@@ -33,4 +45,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: # 실제 유레카클라이언트 주소
+      defaultZone: http://${custom.server}:8761/eureka/
+
+custom:
+  server: ENC(0zWdK1NtpOSg0B/P5gqfGe+3WBULxDvm)
