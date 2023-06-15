@@ -1,4 +1,3 @@
-
 spring:
   mvc:
     pathmatch:
@@ -11,7 +10,7 @@ spring:
     jdbc:
       initialize-schema: always
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${custom.server}:9092
     consumer:
       group-id: solved
       auto-offset-reset: earliest
@@ -52,7 +51,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: http://${custom.server}:8761/eureka/
 server:
   port: 8084
 
