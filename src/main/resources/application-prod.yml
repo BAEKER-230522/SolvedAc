@@ -8,7 +8,7 @@ spring:
     username: ENC(plDde76MscNwKMt9v4A6Rw==)
     password: ENC(OH+qshDPtFh1h1gDdWExzz/t0BlOzVbo)
   kafka:
-    bootstrap-servers: ${custom.server}:9092
+    bootstrap-servers: ${custom.kaf}:9092
     consumer:
       group-id: solved
       auto-offset-reset: earliest
@@ -49,4 +49,6 @@ eureka:
 
 custom:
   server: ENC(0zWdK1NtpOSg0B/P5gqfGe+3WBULxDvm)
+  kaf: ENC(22YKEJHN3Uqkfu10lb/bFtT8LasAGIo5)
+
 
