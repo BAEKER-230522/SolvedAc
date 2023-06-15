@@ -22,12 +22,12 @@ import java.util.Map;
 @Configuration
 public class KafkaConfiguration {
 
-//    @Value("${spring.kafka.bootstrap-servers}")
-    @Value("#{environment['spring.kafka.bootstrap-servers']}")
+    @Value("${spring.kafka.bootstrap-servers}")
+//    @Value("#{environment['spring.kafka.bootstrap-servers']}")
     private String bootstrapServers;
 
-//    @Value("${spring.kafka.producer.linger.ms}")
-    @Value("#{environment['spring.kafka.producer.linger.ms']}")
+    @Value("${spring.kafka.producer.linger.ms}")
+//    @Value("#{environment['spring.kafka.producer.linger.ms']}")
     private String linger;
 
 
