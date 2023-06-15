@@ -5,7 +5,7 @@ spring:
   application:
     name: solved
   profiles:
-    default: dev
+    default: prod
   batch:
     jdbc:
       initialize-schema: always
@@ -70,5 +70,7 @@ scheduler:
     member: "0 */3 * * * *"
     study: "0 */5 * * * *"
 
+#custom:
+#  server: localhost
 custom:
-  server: localhost
+  server: ENC(0zWdK1NtpOSg0B/P5gqfGe+3WBULxDvm)
