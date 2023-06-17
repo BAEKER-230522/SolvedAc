@@ -1,12 +1,14 @@
-package com.example.baekersolved.domain.dto.response;
+package com.example.baekersolved.domain.dto.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class RsData<T> {
 
     private String resultCode;

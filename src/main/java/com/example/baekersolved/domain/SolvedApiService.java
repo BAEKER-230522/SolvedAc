@@ -1,9 +1,9 @@
 package com.example.baekersolved.domain;
 
-import com.example.baekersolved.domain.api.feign.StudyRuleFeign;
-import com.example.baekersolved.domain.dto.BaekJoonDto;
-import com.example.baekersolved.domain.dto.MemberDto;
-import com.example.baekersolved.domain.dto.response.RsData;
+import com.example.baekersolved.domain.api.feign.Feign;
+import com.example.baekersolved.domain.dto.common.BaekJoonDto;
+import com.example.baekersolved.domain.dto.common.MemberDto;
+import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.exception.NotFoundException;
 import com.example.baekersolved.kafka.KafkaProducer;
@@ -30,9 +30,8 @@ import static com.example.baekersolved.address.Address.MEMBER_URL;
 @Slf4j
 public class SolvedApiService {
     private final SolvedApiManager solvedApiManager;
-    private final List<MemberDto> memberDtoList;
     private final KafkaProducer kafkaProducer;
-    private final StudyRuleFeign studyRuleFeign;
+    private final Feign feign;
 
     /**
      * 난이도별 체크 후 문제풀이 수 리턴
@@ -95,26 +94,11 @@ public class SolvedApiService {
     }
 
     /**
-     * member, studyrule 값 받아오기
+     * member
+     * TODO:에러 체크 확인 필요
      */
-    public RsData<List<MemberDto>> getMemberDtoList() throws ParseException {
-        RestTemplate restTemplate = new RestTemplate();
-        String jsonStr = restTemplate.getForObject(MEMBER_URL, String.class); // Memeber api
-        JSONParser jsonParser = new JSONParser();
-        Object object = jsonParser.parse(jsonStr);
-
-        JSONObject jsonObject = (JSONObject) object;
-        JSONArray jsonArray = (JSONArray) jsonObject.get("data");
-        for (Object o : jsonArray) {
-            JSONObject parseJson = (JSONObject) o;
-            MemberDto memberDto = new MemberDto(
-                    (Long) parseJson.get("id"), (String) parseJson.get("baekJoonName"),
-                    (int) parseJson.get("bronze"), (int) parseJson.get("silver"),
-                    (int) parseJson.get("gold"), (int) parseJson.get("platinum"),
-                    (int) parseJson.get("diamond"), (int) parseJson.get("ruby"));
-            memberDtoList.add(memberDto);
-        }
-        return RsData.of("S-1", "회원데이터", memberDtoList);
+    public RsData<List<MemberDto>> getMemberDtoList() {
+        return feign.getMember();
     }
 
 
@@ -122,7 +106,7 @@ public class SolvedApiService {
      * StudyRule Feign
      */
     public List<StudyRuleConsumeDto> getStudyRule() {
-        RsData<List<StudyRuleConsumeDto>> studyRule = studyRuleFeign.getStudyRule();
+        RsData<List<StudyRuleConsumeDto>> studyRule = feign.getStudyRule();
         if (studyRule.isFail()) {
             throw new NotFoundException("StudyRule 이 없습니다.");
         }

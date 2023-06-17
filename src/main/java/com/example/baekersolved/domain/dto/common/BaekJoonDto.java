@@ -1,4 +1,4 @@
-package com.example.baekersolved.domain.dto;
+package com.example.baekersolved.domain.dto.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

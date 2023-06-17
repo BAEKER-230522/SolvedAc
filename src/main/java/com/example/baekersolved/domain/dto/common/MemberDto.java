@@ -1,20 +1,23 @@
-package com.example.baekersolved.domain.dto;
+package com.example.baekersolved.domain.dto.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MemberDto {
-    private Long id;
-    private String baekJoonName;
-    private int bronze;
-    private int silver;
-    private int gold;
-    private int platinum;
-    private int diamond;
-    private int ruby;
+    Long id;
+    String baekJoonName;
+    int bronze;
+    int silver;
+    int gold;
+    int platinum;
+    int diamond;
+    int ruby;
+    int solvedCount;
+
 
     public MemberDto(MemberDto memberDto, BaekJoonDto baekJoonDto) {
         this.id = memberDto.getId();
@@ -25,5 +28,6 @@ public class MemberDto {
         this.platinum = baekJoonDto.getPlatinum();
         this.diamond = baekJoonDto.getDiamond();
         this.ruby = baekJoonDto.getRuby();
+        this.solvedCount = bronze + silver + gold + platinum + diamond + ruby;
     }
 }

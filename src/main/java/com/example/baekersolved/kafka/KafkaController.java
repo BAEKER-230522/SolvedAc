@@ -1,13 +1,10 @@
 package com.example.baekersolved.kafka;
 
-import com.example.baekersolved.domain.dto.MemberDto;
-import lombok.RequiredArgsConstructor;
+import com.example.baekersolved.domain.dto.common.MemberDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @Slf4j

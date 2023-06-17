@@ -1,6 +1,6 @@
 package com.example.baekersolved.kafka;
 
-import com.example.baekersolved.domain.dto.MemberDto;
+import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.response.StudyRuleProduceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

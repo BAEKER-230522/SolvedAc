@@ -1,7 +1,7 @@
 //package com.example.baekersolved.batch;
 //
 //import com.example.baekersolved.domain.SolvedApiService;
-//import com.example.baekersolved.domain.dto.MemberDto;
+//import com.example.baekersolved.domain.dto.common.MemberDto;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.batch.item.ItemReader;
 //import org.springframework.batch.item.NonTransientResourceException;

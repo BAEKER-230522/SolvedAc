@@ -61,6 +61,8 @@ dependencies {
 	// feign
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
 
+	// cloud watch
+	implementation'ca.pjer:logback-awslogs-appender:1.6.0'
 }
 
 tasks.named('test') {

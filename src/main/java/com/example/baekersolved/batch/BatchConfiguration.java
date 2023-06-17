@@ -1,12 +1,11 @@
 package com.example.baekersolved.batch;
 
 import com.example.baekersolved.domain.SolvedApiService;
-import com.example.baekersolved.domain.dto.BaekJoonDto;
-import com.example.baekersolved.domain.dto.MemberDto;
-import com.example.baekersolved.domain.dto.response.RsData;
+import com.example.baekersolved.domain.dto.common.BaekJoonDto;
+import com.example.baekersolved.domain.dto.common.MemberDto;
+import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.StudyRuleProduceDto;
-import com.example.baekersolved.domain.event.StudyEvent;
 import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -119,7 +118,7 @@ public class BatchConfiguration {
         return (contribution, chunkContext) -> {
             List<StudyRuleConsumeDto> dtoList = solvedApiService.getStudyRule();
             for (StudyRuleConsumeDto dto : dtoList) {
-                Long studyRuleId = dto.ruleId();
+                Long studyRuleId = dto.id();
 
                 producer.sendStudy(new StudyRuleProduceDto(studyRuleId));
                 // studyRule ->

@@ -1,6 +1,6 @@
 package com.example.baekersolved.kafka;
 
-import com.example.baekersolved.domain.dto.MemberDto;
+import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.exception.NotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
