@@ -15,8 +15,13 @@ public class SolvedApiController {
     private final SolvedApiService solvedApiService;
 
 
+    /**
+     * 검증 로직
+     * @param baekJoonName
+     */
     @GetMapping("/api/solved/v1/valid")
     public String checkBaekJoonName(@RequestBody String baekJoonName) throws IOException, ParseException {
+
         if (solvedApiService.isUser(baekJoonName)) {
             return "S-1";
         }
