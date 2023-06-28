@@ -6,6 +6,7 @@ import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.StudyRuleProduceDto;
+import com.example.baekersolved.exception.NotFoundException;
 import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,6 @@ public class BatchConfiguration {
     private final SolvedApiService solvedApiService;
     private final KafkaProducer producer;
     private final PlatformTransactionManager transactionManager;
-    private final ApplicationEventPublisher publisher;
 
 
     @Bean
@@ -57,37 +57,17 @@ public class BatchConfiguration {
     @StepScope
     public Tasklet tasklet() {
         return ((contribution, chunkContext) -> {
-            System.out.println("멤버별 solved count 테스크렛");
+
             RsData<List<MemberDto>> memberList = solvedApiService.getMemberDtoList();
             for (MemberDto member : memberList.getData()) {
                 try {
+                    Thread.sleep(1000);
                     System.out.println(member.getBaekJoonName());
-                    Optional<Integer> Bronze = solvedApiService.getSolvedCount(member, 1, 6);
-                    if (Bronze.get() == -1) {
-                        continue;
-                    }
-                    int bronze = Bronze.get() - member.getBronze();
-                    Thread.sleep(1000);
+                    BaekJoonDto dto = solvedApiService.batchLogic(member).getData(); // 오늘값 - 어제값 풀이 수
 
-                    int Silver = solvedApiService.getSolvedCount(member, 6, 11).get() - member.getSilver();
-                    Thread.sleep(1000);
-
-                    int Gold = solvedApiService.getSolvedCount(member, 11, 16).get() - member.getGold();
-                    Thread.sleep(1000);
-
-                    int Platinum = solvedApiService.getSolvedCount(member, 16, 21).get() - member.getPlatinum();
-                    Thread.sleep(1000);
-
-                    int Diamond = solvedApiService.getSolvedCount(member, 21, 26).get() - member.getDiamond();
-                    Thread.sleep(1000);
-
-                    int Ruby = solvedApiService.getSolvedCount(member, 26, 31).get() - member.getRuby();
-                    Thread.sleep(1000);
-
-                    BaekJoonDto dto = new BaekJoonDto(bronze , Silver, Gold, Platinum, Diamond, Ruby);
-                    MemberDto updateDto = new MemberDto(member, dto);
+                    MemberDto updateDto = new MemberDto(member, dto); // 새로운 memberDto
                     producer.sendMember(updateDto);
-                } catch (NullPointerException | HttpClientErrorException | InterruptedException e) {
+                } catch (NullPointerException | HttpClientErrorException | InterruptedException | NotFoundException e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
             }

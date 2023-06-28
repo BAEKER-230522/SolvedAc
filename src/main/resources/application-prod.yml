@@ -40,6 +40,7 @@ scheduler:
 
 eureka:
   instance:
+    instance-id: ${custom.server}:${server.port}
     preferIpAddress: true
   client:
     registerWithEureka: true

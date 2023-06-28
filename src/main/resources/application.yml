@@ -46,6 +46,7 @@ jasypt:
 
 eureka:
   instance:
+    instance-id: ${custom.server}:${server.port}
     preferIpAddress: true
   client:
     registerWithEureka: true
@@ -74,4 +75,4 @@ scheduler:
 #custom:
 #  server: localhost
 custom:
-  server: ENC(0zWdK1NtpOSg0B/P5gqfGe+3WBULxDvm)
+  server: localhost
