@@ -1,5 +1,6 @@
 package com.example.baekersolved.domain.api.controller;
 
+import com.example.baekersolved.constants.ExceptionMsg;
 import com.example.baekersolved.domain.SolvedApiService;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.RsData;
@@ -10,6 +11,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+
+import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,9 +32,9 @@ public class SolvedApiController {
                 return RsData.successOf(solvedApiService.getJoinSolved(baekJoonName));
             }
         }catch (IOException | ParseException e){
-            throw new NotFoundException("해당 유저가 존재하지 않습니다.");
+            throw new NotFoundException(NOT_FOUND_USER.getMsg());
         }
-        throw new NotFoundException("해당 유저가 존재하지 않습니다.");
+        throw new NotFoundException(NOT_FOUND_USER.getMsg());
     }
 
 }
