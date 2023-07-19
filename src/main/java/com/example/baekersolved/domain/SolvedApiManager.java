@@ -1,5 +1,6 @@
 package com.example.baekersolved.domain;
 
+import com.example.baekersolved.exception.HttpResponseException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -65,5 +66,32 @@ public class SolvedApiManager {
         JSONObject jsonBody = (JSONObject) jsonObject;
 
         return jsonBody.get("handle").toString();
+    }
+
+    /**
+     * 문제 정보
+     * param : 문제 번호
+     * return : 문제 제목
+     */
+    public String getSubject(Long problemId) throws Exception{
+        RestTemplate restTemplate = new RestTemplate();
+        String jsonString = null;
+        try {
+            jsonString = restTemplate.getForObject("https://solved.ac/api/v3/problem/show?problemId=" + problemId, String.class);
+        }catch (Exception e){
+            throw new HttpResponseException("문제 정보를 가져오는데 실패했습니다.");
+        }
+
+        JSONParser jsonParser = new JSONParser();
+        Object jsonObject = null;
+        try {
+            jsonObject = jsonParser.parse(jsonString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject jsonBody = (JSONObject) jsonObject;
+
+        return jsonBody.get("titles").toString();
     }
 }

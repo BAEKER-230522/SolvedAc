@@ -126,6 +126,10 @@ public class SolvedApiService {
         return studyRule.getData();
     }
 
+    public String getSolvedSubject(Long problemId) throws Exception{
+        return solvedApiManager.getSubject(problemId);
+    }
+
 //    public List<StudyRuleDto> getStudyRuleDtoList() {
 //        String jsonStr = restTemplate.getForObject(STUDYRULE_URL, String.class);
 //    }
