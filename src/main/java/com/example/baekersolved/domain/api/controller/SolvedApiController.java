@@ -43,7 +43,7 @@ public class SolvedApiController {
     }
 
     @GetMapping("/v1/{problemId}")
-    public RsData<SolvedResponse> getSolvedSubject(@PathVariable Long problemId){
+    public RsData<SolvedResponse> getSolvedSubject(@PathVariable("problemId") Integer problemId){
         String solvedSubject = null;
         try {
             solvedSubject = solvedApiService.getSolvedSubject(problemId);

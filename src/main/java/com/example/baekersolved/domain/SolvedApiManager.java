@@ -73,9 +73,10 @@ public class SolvedApiManager {
      * param : 문제 번호
      * return : 문제 제목
      */
-    public String getSubject(Long problemId) throws Exception{
+    public String getSubject(int problemId) throws Exception{
         RestTemplate restTemplate = new RestTemplate();
         String jsonString = null;
+
         try {
             jsonString = restTemplate.getForObject("https://solved.ac/api/v3/problem/show?problemId=" + problemId, String.class);
         }catch (Exception e){
@@ -92,6 +93,6 @@ public class SolvedApiManager {
 
         JSONObject jsonBody = (JSONObject) jsonObject;
 
-        return jsonBody.get("titles").toString();
+        return jsonBody.get("titleKo").toString();
     }
 }

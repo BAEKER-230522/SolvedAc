@@ -126,7 +126,7 @@ public class SolvedApiService {
         return studyRule.getData();
     }
 
-    public String getSolvedSubject(Long problemId) throws Exception{
+    public String getSolvedSubject(int problemId) throws Exception{
         return solvedApiManager.getSubject(problemId);
     }
 
