@@ -49,6 +49,7 @@ public class SolvedApiController {
             solvedSubject = solvedApiService.getSolvedSubject(problemId);
         } catch (HttpResponseException e) {
             log.error("solved ac 접속 에러");
+            e.printStackTrace();
         }catch (Exception e){
             log.error(e.getMessage());
         }
