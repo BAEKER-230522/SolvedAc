@@ -43,16 +43,10 @@ public class SolvedApiController {
     }
 
     @GetMapping("/v1/{problemId}")
-    public RsData<SolvedResponse> getSolvedSubject(@PathVariable("problemId") Integer problemId){
+    public RsData<SolvedResponse> getSolvedSubject(@PathVariable("problemId") Integer problemId) throws Exception{
         String solvedSubject = null;
-        try {
-            solvedSubject = solvedApiService.getSolvedSubject(problemId);
-        } catch (HttpResponseException e) {
-            log.error("solved ac 접속 에러");
-            e.printStackTrace();
-        }catch (Exception e){
-            log.error(e.getMessage());
-        }
+        solvedSubject = solvedApiService.getSolvedSubject(problemId);
+
         return RsData.successOf(new SolvedResponse(solvedSubject));
     }
 
