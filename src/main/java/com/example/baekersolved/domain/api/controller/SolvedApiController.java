@@ -44,10 +44,7 @@ public class SolvedApiController {
 
     @GetMapping("/v1/{problemId}")
     public RsData<SolvedResponse> getSolvedSubject(@PathVariable("problemId") Integer problemId) throws Exception{
-        String solvedSubject = null;
-        solvedSubject = solvedApiService.getSolvedSubject(problemId);
-
+        String solvedSubject = solvedApiService.getSolvedSubject(problemId);
         return RsData.successOf(new SolvedResponse(solvedSubject));
     }
-
 }

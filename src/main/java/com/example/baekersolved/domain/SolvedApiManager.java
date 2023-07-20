@@ -3,6 +3,7 @@ package com.example.baekersolved.domain;
 import com.example.baekersolved.exception.HttpResponseException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -80,6 +81,7 @@ public class SolvedApiManager {
         try {
             jsonString = restTemplate.getForObject("https://solved.ac/api/v3/problem/show?problemId=" + problemId, String.class);
         }catch (Exception e){
+            e.printStackTrace();
             throw new HttpResponseException("문제 정보를 가져오는데 실패했습니다.");
         }
 
