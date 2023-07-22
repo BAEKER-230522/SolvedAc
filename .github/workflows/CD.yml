@@ -63,4 +63,4 @@ jobs:
     steps:
       - name: deploy run
         run: |
-          sh /home1/nbpmon/solved/dep/run.sh
+          sh /kube/solved/run.sh
