@@ -10,7 +10,7 @@ spring:
     jdbc:
       initialize-schema: always
   kafka:
-    bootstrap-servers: ${custom.server}:9092
+    bootstrap-servers: 10.22.128.222:9092
     consumer:
       group-id: solved
       auto-offset-reset: earliest
@@ -45,13 +45,13 @@ jasypt:
 
 eureka:
   instance:
-    instance-id: ${custom.server}:${server.port}
+    instance-id: 10.22.130.253:${server.port}
     preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://${custom.server}:8761/eureka/
+      defaultZone: http://10.22.130.253:8761/eureka/
 
 
 server:

@@ -8,7 +8,7 @@ spring:
     username: ENC(plDde76MscNwKMt9v4A6Rw==)
     password: ENC(OH+qshDPtFh1h1gDdWExzz/t0BlOzVbo)
   kafka:
-    bootstrap-servers: ${custom.server}:9092
+    bootstrap-servers: 10.22.128.222:9092
     consumer:
       group-id: solved
       auto-offset-reset: earliest
@@ -40,6 +40,7 @@ scheduler:
 
 
 custom:
+
   server: 101.101.208.240  #ENC(0zWdK1NtpOSg0B/P5gqfGe+3WBULxDvm)
 
 
