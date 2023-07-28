@@ -5,7 +5,7 @@ spring:
   application:
     name: solved
   profiles:
-    default: dev
+    default:
   batch:
     jdbc:
       initialize-schema: always
@@ -52,6 +52,8 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://10.22.130.253:8761/eureka/
+
+
 
 
 server:
