@@ -35,34 +35,14 @@ public class RestTemplateConfig {
         restTemplate.setInterceptors(Collections.singletonList(
                 (request, body, execution) -> {
                     HttpHeaders headers = request.getHeaders();
-                    headers.add(HttpHeaders.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+                    headers.add(HttpHeaders.USER_AGENT, "Mozilla/5.0");
                     return execution.execute(request, body);
                 }
         ));
         return restTemplate;
     }
 
-    private HttpComponentsClientHttpRequestFactory clientHttpRequestFactory() throws NoSuchAlgorithmException, KeyManagementException {
-        TrustManager[] trustAllCertificates = new TrustManager[]{
-                new X509TrustManager() {
-                    public X509Certificate[] getAcceptedIssuers() {
-                        return null;
-                    }
-
-                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                    }
-
-                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                    }
-                }
-        };
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, trustAllCertificates, new java.security.SecureRandom());
-
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setSslcontext(sslContext)
-                .setHostnameVerifier((X509HostnameVerifier) NoopHostnameVerifier.INSTANCE)
-                .build();
+    private HttpComponentsClientHttpRequestFactory clientHttpRequestFactory() {
         return new HttpComponentsClientHttpRequestFactory();
     }
 }
