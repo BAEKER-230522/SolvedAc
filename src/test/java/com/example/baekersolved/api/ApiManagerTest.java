@@ -32,7 +32,7 @@ public class ApiManagerTest {
         ResponseEntity<String> response = null;
         try {
              response = restTemplate
-                    .getForEntity(manager.getUserInformation("wy9295"), String.class);
+                    .exchange(manager.getUserInformation("wy9295"), HttpMethod.GET, HttpEntity.EMPTY,String.class);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
