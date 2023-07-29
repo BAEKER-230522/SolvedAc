@@ -25,7 +25,7 @@ public class SolvedApiManager {
     private final RestTemplate restTemplate;
 
     //== 요청 정보 == //
-    private String getUserInformation(String baekJoonName) throws UnsupportedEncodingException {
+    public String getUserInformation(String baekJoonName) throws UnsupportedEncodingException {
         return BASE_URL +
                 api_user +
                 api_handle +
