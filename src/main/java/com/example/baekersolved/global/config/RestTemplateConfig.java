@@ -21,6 +21,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.Collections;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 @Configuration
 public class RestTemplateConfig {
 
@@ -35,6 +37,9 @@ public class RestTemplateConfig {
         restTemplate.setInterceptors(Collections.singletonList(
                 (request, body, execution) -> {
                     HttpHeaders headers = request.getHeaders();
+                    headers.setContentType(APPLICATION_JSON);
+                    headers.setAccept(Collections.singletonList(APPLICATION_JSON));
+                    headers.add(HttpHeaders.ACCEPT, "application/json");
                     headers.add(HttpHeaders.USER_AGENT, "Mozilla/5.0");
                     return execution.execute(request, body);
                 }
