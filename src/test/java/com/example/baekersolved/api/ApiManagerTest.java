@@ -35,10 +35,10 @@ public class ApiManagerTest {
                     .getForEntity(manager.getUserInformation("wy9295"), String.class);
         }catch (Exception e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(APPLICATION_JSON_VALUE, response.getHeaders().getContentType().getType() + "/" +
                                                     response.getHeaders().getContentType().getSubtype());
-
     }
 }
