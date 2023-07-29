@@ -22,7 +22,7 @@ public class SolvedApiManager {
     private final String api_user = "/show";
     private final String api_problem = "/problem_stats";
     private final String api_handle = "?handle=";
-
+    private final RestTemplate restTemplate;
 
     //== 요청 정보 == //
     private String getUserInformation(String baekJoonName) throws UnsupportedEncodingException {
@@ -30,7 +30,6 @@ public class SolvedApiManager {
                 api_user +
                 api_handle +
                 baekJoonName;
-
     }
 
     private String getProblemStats(String baekJoonName) throws UnsupportedEncodingException{
@@ -46,7 +45,6 @@ public class SolvedApiManager {
      * 문제풀이 로직
      */
     public JSONArray getProblemCount(String baekJoonName) throws IOException, ParseException {
-        RestTemplate restTemplate = new RestTemplate();
         String jsonString = restTemplate.getForObject(getProblemStats(baekJoonName), String.class);
         JSONParser jsonParser = new JSONParser();
         Object jsonObject = jsonParser.parse(jsonString);
@@ -58,7 +56,6 @@ public class SolvedApiManager {
      * 사용자 정보
      */
     public String findUser(String baekJoonName) throws IOException, ParseException {
-        RestTemplate restTemplate = new RestTemplate();
         String jsonString = restTemplate.getForObject(getUserInformation(baekJoonName), String.class);
 
         JSONParser jsonParser = new JSONParser();
@@ -75,7 +72,6 @@ public class SolvedApiManager {
      * return : 문제 제목
      */
     public String getSubject(int problemId) throws Exception{
-        RestTemplate restTemplate = new RestTemplate();
         String jsonString = null;
 
         try {
