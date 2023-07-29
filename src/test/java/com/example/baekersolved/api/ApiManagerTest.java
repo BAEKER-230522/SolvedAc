@@ -16,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.print.attribute.standard.Media;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -31,8 +33,14 @@ public class ApiManagerTest {
     void getUserInformation() {
         ResponseEntity<String> response = null;
         try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(APPLICATION_JSON);
+            headers.setAccept(Collections.singletonList(APPLICATION_JSON));
+            headers.add(HttpHeaders.ACCEPT, "application/json");
+            headers.add(HttpHeaders.USER_AGENT, "Mozilla/5.0");
+            HttpEntity<String> entity = new HttpEntity<>(headers);
              response = restTemplate
-                    .exchange(manager.getUserInformation("wy9295"), HttpMethod.GET, HttpEntity.EMPTY,String.class);
+                    .exchange(manager.getUserInformation("wy9295"), HttpMethod.GET, entity,String.class);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
