@@ -1,14 +1,11 @@
-#FROM gradle:7.6.1-jdk17 AS build
-#COPY . /home/gradle/src
-#WORKDIR /home/gradle/src
-#ARG JAR_FILE=build/libs/*.jar
-#
-#FROM mcr.microsoft.com/java/jre:17-zulu-ubuntu
-#COPY --from=build /home/gradle/src/build/libs/*.jar /app.jar
 FROM gradle:7.6.1-jdk17 AS build
 COPY . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
+ARG JAR_FILE=build/libs/*.jar
+#
+#FROM mcr.microsoft.com/java/jre:17-zulu-ubuntu
+#COPY --from=build /home/gradle/src/build/libs/*.jar /app.jar
+
 
 # 실행 스테이지
 FROM mcr.microsoft.com/java/jre:17-zulu-ubuntu
