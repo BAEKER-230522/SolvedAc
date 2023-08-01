@@ -1,13 +1,12 @@
 package com.example.baekersolved.domain;
 
-import com.example.baekersolved.constants.ExceptionMsg;
 import com.example.baekersolved.domain.api.feign.Feign;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
+import com.example.baekersolved.domain.model.SolvedApiManager;
 import com.example.baekersolved.exception.NotFoundException;
-import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -19,7 +18,6 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_STUDY;
 import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;

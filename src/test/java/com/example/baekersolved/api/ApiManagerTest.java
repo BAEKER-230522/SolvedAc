@@ -1,26 +1,14 @@
 package com.example.baekersolved.api;
 
-import com.example.baekersolved.domain.SolvedApiManager;
+import com.example.baekersolved.domain.model.SolvedApiManager;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.http.HttpClient;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

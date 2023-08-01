@@ -63,6 +63,9 @@ dependencies {
 
 	// cloud watch
 	implementation'ca.pjer:logback-awslogs-appender:1.6.0'
+
+	//selenium
+	implementation 'org.seleniumhq.selenium:selenium-java:4.10.0'
 }
 
 tasks.named('test') {
