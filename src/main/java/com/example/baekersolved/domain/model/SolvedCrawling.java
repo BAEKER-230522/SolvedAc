@@ -1,6 +1,7 @@
 package com.example.baekersolved.domain.model;
 
 import com.example.baekersolved.constants.Address;
+import com.example.baekersolved.domain.dto.ProblemDto;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -23,7 +24,7 @@ public class SolvedCrawling {
     private static ConcurrentLinkedQueue<WebDriver> driverPool;
 //    private static LinkedBlockingQueue<WebDriver> driverPool;
     private int finalI = 0;
-    @Scheduled(cron = "30 59 10 * * *")
+    @Scheduled(cron = "30 48 23 * * *")
     public void solvedCrawling() {
         try {
             initializeDriverPool();
@@ -37,22 +38,18 @@ public class SolvedCrawling {
             executorService.submit(() -> {
                 WebDriver driver = getDriverFromPool();
                 driver.get(SOLVED_BASE_URL + SOLVED_PROBLEM_URL + finalI); // 문제 페이지 리스트
-//                        List<WebElement> webElement = driver.findElements(By.cssSelector("#__next > div.css-1948bce > div:nth-child(4) > div.css-qijqp5 > table > tbody"));
-//                        System.out.println("=====================================" + webElement.size() + "=====================================");
-//                        for (WebElement element : webElement) {
-//                            System.out.println(element.getText());
-//                            String problemId = element.findElement(By.className("css-lywkv4")).getText();
-//                            String problemSubject = element.findElement(By.className("css-d6mf5j")).getText();
-//                            System.out.println(problemId + " " + problemSubject);
-//                        }
-                List<WebElement> webElements = driver.findElements(By.className("css-1ojb0xa"));
-                System.out.println("=====================================" + webElements.size() + "=====================================");
+                WebElement xPath = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[3]/div[2]/div[1]/table/tbody"));
+                List<WebElement> webElements = xPath.findElements(By.className("css-1ojb0xa"));
+
                 for (WebElement webElement : webElements) {
-//                    System.out.println(webElement.getText());
-                    List<WebElement> elements = (List<WebElement>) webElement.findElement(By.className("css-1cnxww9"));
-                    String problemId = webElement.findElement(By.className("css-1raije9")).getText();
-                    String problemSubject = webElement.findElement(By.className("__Latex__")).getText();
-                    System.out.println(problemId + " " + problemSubject);
+
+                    String problemId = webElement.findElements(By.className("css-1cnxww9")).get(0).getText();
+                    String subject = webElement.findElements(By.className("css-1cnxww9")).get(1).getText();
+                    try {
+                        ProblemDto dto = new ProblemDto(Integer.parseInt(problemId), subject, finalI); // 문제 dto
+                    }catch (NumberFormatException e) {
+                        log.error("{}", e.getMessage());
+                    }
                 }
 
                         returnDriverToPool(driver);

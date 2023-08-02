@@ -1,4 +1,4 @@
 package com.example.baekersolved.domain.dto;
 
-public record ProblemDto(int problemId, String problemSubject, String problemLevel) {
+public record ProblemDto(int problemId, String problemSubject, int problemLevel) {
 }
