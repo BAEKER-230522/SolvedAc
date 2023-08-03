@@ -57,7 +57,7 @@ jasypt:
 
 
 server:
-  port: 443
+  port: 8084
 
 
 

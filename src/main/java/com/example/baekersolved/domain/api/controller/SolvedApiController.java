@@ -27,23 +27,20 @@ public class SolvedApiController {
 
     /**
      * 검증 로직
+     *
      * @param baekJoonName
      */
     @GetMapping("/v1/valid/{name}")
-    public RsData<BaekJoonDto> checkBaekJoonName(@PathVariable("name") String baekJoonName)  {
+    public RsData<BaekJoonDto> checkBaekJoonName(@PathVariable("name") String baekJoonName) {
 
-        try {
-            if (solvedApiService.isUser(baekJoonName)) {
-                return RsData.successOf(solvedApiService.getJoinSolved(baekJoonName));
-            }
-        }catch (IOException | ParseException e){
-            throw new NotFoundException(NOT_FOUND_USER.getMsg());
-        }
-        throw new NotFoundException(NOT_FOUND_USER.getMsg());
+        //TODO :Exception 처리 디테일 하게
+        BaekJoonDto userProfile = solvedApiService.userProfile(baekJoonName);
+        return RsData.of("S-1", "성공", userProfile);
+
     }
 
     @GetMapping("/v1/{problemId}")
-    public RsData<SolvedResponse> getSolvedSubject(@PathVariable("problemId") Integer problemId) throws Exception{
+    public RsData<SolvedResponse> getSolvedSubject(@PathVariable("problemId") Integer problemId) throws Exception {
         String solvedSubject = solvedApiService.getSolvedSubject(problemId);
         return RsData.successOf(new SolvedResponse(solvedSubject));
     }

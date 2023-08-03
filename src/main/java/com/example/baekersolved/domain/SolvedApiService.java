@@ -6,6 +6,7 @@ import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.model.SolvedApiManager;
+import com.example.baekersolved.domain.model.SolvedCrawling;
 import com.example.baekersolved.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;
 public class SolvedApiService {
     private final SolvedApiManager solvedApiManager;
     private final Feign feign;
+    private final SolvedCrawling crawling;
 
     /**
      * 난이도별 체크 후 문제풀이 수 리턴
@@ -89,21 +91,6 @@ public class SolvedApiService {
         return new BaekJoonDto(Bronze, Silver, Gold, Platinum, Diamond, Ruby);
     }
 
-
-
-    /**
-     * 회원가입시 사용자 체크
-     */
-    public boolean isUser(String baekjoonName) throws IOException, ParseException {
-        try {
-            solvedApiManager.findUser(baekjoonName);
-        } catch (HttpClientErrorException e) {
-            log.error(e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
     /**
      * member
      * TODO:에러 체크 확인 필요
@@ -126,6 +113,10 @@ public class SolvedApiService {
 
     public String getSolvedSubject(int problemId) throws Exception{
         return solvedApiManager.getSubject(problemId);
+    }
+
+    public BaekJoonDto userProfile(String baekjoonId) {
+        return crawling.profileCrawling(baekjoonId);
     }
 
 //    public List<StudyRuleDto> getStudyRuleDtoList() {
