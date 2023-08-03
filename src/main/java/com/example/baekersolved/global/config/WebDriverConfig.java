@@ -39,8 +39,8 @@ public class WebDriverConfig {
             chromeOptions.addArguments("--disable-dev-shm-usage");
             chromeOptions.addArguments("--disable-gpu");
             chromeOptions.addArguments("--remote-allow-origins=*");
-            // binary 는 확인해야함
-            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+            // binary 는 확인해야함 local 에서만
+//            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
             WebDriver driver = new ChromeDriver(chromeOptions);
             driverPool.add(driver);
         }
