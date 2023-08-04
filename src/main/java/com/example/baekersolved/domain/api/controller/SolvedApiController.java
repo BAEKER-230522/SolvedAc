@@ -32,14 +32,17 @@ public class SolvedApiController {
      */
     @GetMapping("/v1/valid/{name}")
     public RsData<BaekJoonDto> checkBaekJoonName(@PathVariable("name") String baekJoonName) {
-
         //TODO :Exception 처리 디테일 하게
         BaekJoonDto userProfile = solvedApiService.userProfile(baekJoonName);
         return RsData.of("S-1", "성공", userProfile);
 
     }
 
+    /**
+     *  api 사용불가로 크롤링으로 수정 예정
+     */
     @GetMapping("/v1/{problemId}")
+    @Deprecated
     public RsData<SolvedResponse> getSolvedSubject(@PathVariable("problemId") Integer problemId) throws Exception {
         String solvedSubject = solvedApiService.getSolvedSubject(problemId);
         return RsData.successOf(new SolvedResponse(solvedSubject));

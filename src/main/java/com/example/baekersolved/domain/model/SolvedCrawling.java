@@ -26,6 +26,10 @@ import static java.lang.Thread.sleep;
 @Slf4j
 public class SolvedCrawling {
 
+    /**
+     * 백준에 있는 문제 크롤링 로직
+     *
+     */
     // 문제 크롤링 ( 주 1회? 달 1회? ) 자주할 필요 X
     @Scheduled(cron = "30 28 22 * * *")
     public void problemCrawling()
@@ -107,6 +111,12 @@ public class SolvedCrawling {
         }).start();
     }
 
+    /**
+     * 사용자 정보
+     * 각 티어별 정답 맞춘수 출력 가능
+     * @param baekjoonId
+     * @return
+     */
     public BaekJoonDto profileCrawling(String baekjoonId) {
         WebDriver driver = getDriverFromPool();
         driver.get(SOLVED_BASE_URL + SOLVED_PROFILE + baekjoonId);
@@ -127,8 +137,21 @@ public class SolvedCrawling {
     }
 
     /**
+     * 미션 해당문제 풀었는지 확인하는 로직
+     * 최근의 푼 문제
+     * ex) 1000, 1001 번 풀었는지 확인 가능
+     */
+    public void missionSolvedCheck(String baekJoonId) {
+        WebDriver driver = getDriverFromPool();
+        driver.get(BAEKJOON_BASE_URL + BAEKJOON_SOLVED_URL + baekJoonId + BAEKJOON_SOLVED_END);
+        List<WebElement> problemTitle = driver.findElements(By.className("problem_title"));
+        for (WebElement webElement : problemTitle) {
+            System.out.println(webElement.getText());
+        }
+    }
+
+    /**
      * 문제 크롤링 페이징 처리
-     *
      * @return
      */
     private static WebDriver getDriverFromPool() {
@@ -147,33 +170,4 @@ public class SolvedCrawling {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(name));
     }
-
-//    public static void initializeDriverPool() throws IOException, InterruptedException {
-//        String os = System.getProperty("os.name").toLowerCase();
-//
-//        if (os.contains("win")) {
-//            System.setProperty("webdriver.chrome.driver", "drivers/chromedriver_win.exe");
-//        } else if (os.contains("mac")) {
-//            Process process = Runtime.getRuntime().exec("xattr -d com.apple.quarantine drivers/chromedriver_mac");
-//            process.waitFor();
-//            System.setProperty("webdriver.chrome.driver", "drivers/chromedriver_mac");
-//        } else if (os.contains("linux")) {
-//            System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
-//        }
-//        driverPool = new ConcurrentLinkedQueue<>();
-//        for (int i = 0; i <= 30; i++) {
-//            ChromeOptions chromeOptions = new ChromeOptions();
-//            chromeOptions.addArguments("--disk-cache-size=0");
-//            chromeOptions.addArguments("--media-cache-size=0");
-//            chromeOptions.addArguments("--headless=new");
-//            chromeOptions.addArguments("--no-sandbox");
-//            chromeOptions.addArguments("--disable-dev-shm-usage");
-//            chromeOptions.addArguments("--disable-gpu");
-//            chromeOptions.addArguments("--remote-allow-origins=*");
-//            // binary 는 확인해야함
-//            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
-//            WebDriver driver = new ChromeDriver(chromeOptions);
-//            driverPool.add(driver);
-//        }
-//    }
 }

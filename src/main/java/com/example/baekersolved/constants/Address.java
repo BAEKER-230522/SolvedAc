@@ -9,4 +9,7 @@ public class Address {
     public static final String SOLVED_BASE_URL = "https://solved.ac";
     public static final String SOLVED_PROFILE = "/profile/"; // /+id 입력
     public static final String SOLVED_PROBLEM_URL = "/problems/level/"; // /+level 입력 ex) 0~30
+    public static final String BAEKJOON_BASE_URL = "https://www.acmicpc.net";
+    public static final String BAEKJOON_SOLVED_URL = "/status?user_id="; // /+id 입력
+    public static final String BAEKJOON_SOLVED_END = "&result_id=4";
 }

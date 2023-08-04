@@ -12,6 +12,10 @@ import java.util.List;
 
 @FeignClient(name = "studyrule", url = "http://${custom.server}:9000")
 public interface Feign {
+    /**
+     * 기존의 스터디룰조회
+     * 얼만큼 풀었는지확인하는것
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/api/studyrule/v1/search")
     RsData<List<StudyRuleConsumeDto>> getStudyRule();
 

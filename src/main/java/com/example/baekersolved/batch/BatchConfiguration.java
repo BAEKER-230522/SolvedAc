@@ -99,7 +99,6 @@ public class BatchConfiguration {
             List<StudyRuleConsumeDto> dtoList = solvedApiService.getStudyRule();
             for (StudyRuleConsumeDto dto : dtoList) {
                 Long studyRuleId = dto.id();
-
                 producer.sendStudy(new StudyRuleProduceDto(studyRuleId));
                 // studyRule ->
             }

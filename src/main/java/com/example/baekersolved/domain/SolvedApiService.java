@@ -35,6 +35,7 @@ public class SolvedApiService {
     /**
      * 난이도별 체크 후 문제풀이 수 리턴
      */
+    @Deprecated
     private Integer getSolvedCount(String baekJoonName, Integer min, Integer max) throws IOException, ParseException {
         JSONArray test;
         try {
@@ -56,6 +57,7 @@ public class SolvedApiService {
     /**
      * Batch Logic
      */
+    @Deprecated
     public RsData<BaekJoonDto> batchLogic(MemberDto memberDto) throws IOException, ParseException, NotFoundException {
         int Bronze = getSolvedCount(memberDto.getBaekJoonName(), 1, 6) - memberDto.getBronze();
 
@@ -77,6 +79,7 @@ public class SolvedApiService {
     /**
      * 최초 로그인 시 업데이트
      */
+    @Deprecated
     public BaekJoonDto getJoinSolved(String baekJoonName) throws IOException, ParseException, NotFoundException {
         int Bronze = getSolvedCount(baekJoonName, 1, 6);
         int Silver = getSolvedCount(baekJoonName, 6, 11);
@@ -111,14 +114,24 @@ public class SolvedApiService {
         return studyRule.getData();
     }
 
+    @Deprecated
     public String getSolvedSubject(int problemId) throws Exception{
         return solvedApiManager.getSubject(problemId);
     }
 
+    /**
+     * 백준 프로필 크롤링
+     */
     public BaekJoonDto userProfile(String baekjoonId) {
         return crawling.profileCrawling(baekjoonId);
     }
 
+    /**
+     * 최근 푼 문제 크롤링
+     */
+    public void recentSolvingProblem(String id) {
+        crawling.missionSolvedCheck(id);
+    }
 //    public List<StudyRuleDto> getStudyRuleDtoList() {
 //        String jsonStr = restTemplate.getForObject(STUDYRULE_URL, String.class);
 //    }
