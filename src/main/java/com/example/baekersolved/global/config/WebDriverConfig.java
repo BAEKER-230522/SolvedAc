@@ -41,6 +41,7 @@ public class WebDriverConfig {
             chromeOptions.addArguments("--remote-allow-origins=*");
             // binary 는 확인해야함 local 에서만
 //            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+            chromeOptions.setBinary("/usr/bin/google-chrome");
             WebDriver driver = new ChromeDriver(chromeOptions);
             driverPool.add(driver);
         }
