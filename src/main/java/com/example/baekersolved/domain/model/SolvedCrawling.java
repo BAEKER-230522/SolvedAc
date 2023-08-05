@@ -127,6 +127,7 @@ public class SolvedCrawling {
 
 //        int totalSolved = getUserSolvedCount(element, By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[1]/div[2]/div/div/b"));
         By solvedListBy = By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[3]/div/table/tbody");
+        sleep(1000);
         try {
             wait(driver, solvedListBy);
         } catch (TimeoutException | NoSuchElementException e) {
