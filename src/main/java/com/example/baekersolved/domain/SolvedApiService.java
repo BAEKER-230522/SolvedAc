@@ -43,6 +43,7 @@ public class SolvedApiService {
             test = this.solvedApiManager.getProblemCount(baekJoonName);
 
         } catch (HttpClientErrorException e) {
+            e.printStackTrace();
             throw new NotFoundException(NOT_FOUND_USER.getMsg());
         }
 
