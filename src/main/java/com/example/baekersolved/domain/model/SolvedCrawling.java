@@ -215,8 +215,8 @@ public class SolvedCrawling {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--disk-cache-size=0");
         chromeOptions.addArguments("--media-cache-size=0");
-//            chromeOptions.addArguments("--headless=new");
-        chromeOptions.addArguments("--headless");
+            chromeOptions.addArguments("--headless=new");
+//        chromeOptions.addArguments("--headless");
         chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--disable-dev-shm-usage");
         chromeOptions.addArguments("--disable-gpu");
