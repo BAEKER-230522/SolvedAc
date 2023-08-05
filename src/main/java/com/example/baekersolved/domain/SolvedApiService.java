@@ -80,7 +80,8 @@ public class SolvedApiService {
     /**
      * 최초 로그인 시 업데이트
      */
-    @Deprecated
+//    @Deprecated
+
     public BaekJoonDto getJoinSolved(String baekJoonName) throws IOException, ParseException, NotFoundException {
         int Bronze = getSolvedCount(baekJoonName, 1, 6);
         int Silver = getSolvedCount(baekJoonName, 6, 11);

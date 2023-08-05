@@ -47,4 +47,10 @@ public class SolvedApiController {
         String solvedSubject = solvedApiService.getSolvedSubject(problemId);
         return RsData.successOf(new SolvedResponse(solvedSubject));
     }
+
+    @GetMapping("/v1/{name}/count")
+    public RsData<BaekJoonDto> test(@PathVariable("name") String baekJoonName) throws IOException, ParseException {
+        BaekJoonDto joinSolved = solvedApiService.getJoinSolved(baekJoonName);
+        return RsData.successOf(joinSolved);
+    }
 }
