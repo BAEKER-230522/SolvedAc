@@ -141,6 +141,7 @@ public class SolvedCrawling {
         int platinum = getUserSolvedCount(webElement, By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[3]/div/table/tbody/tr[4]/td[2]/b"));
         int diamond = getUserSolvedCount(webElement, By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[3]/div/table/tbody/tr[5]/td[2]/b"));
         int ruby = getUserSolvedCount(webElement, By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[3]/div/table/tbody/tr[6]/td[2]/b"));
+        driver.quit();
         return new BaekJoonDto(bronze, silver, gold, platinum, diamond, ruby);
     }
 
@@ -175,8 +176,13 @@ public class SolvedCrawling {
     }
 
     private void wait(WebDriver driver, By name) throws TimeoutException, NoSuchElementException {
+        WebElement element = driver.findElement(name);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView({block: 'end', behavior: 'auto'});", element);
+        js.executeScript("window.scrollBy(0, window.innerHeight);");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(name));
+
     }
 
     private void initializeDriverPool(){
