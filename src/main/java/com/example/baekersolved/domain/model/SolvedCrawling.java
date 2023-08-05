@@ -126,7 +126,7 @@ public class SolvedCrawling {
 //        WebElement element = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[1]/div[2]/div/div/b"));
 
 //        int totalSolved = getUserSolvedCount(element, By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[1]/div[2]/div/div/b"));
-        By solvedListBy = By.className("css-1d9xc1d");
+        By solvedListBy = By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[3]/div/table/tbody");
         try {
             wait(driver, solvedListBy);
         } catch (TimeoutException | NoSuchElementException e) {
@@ -177,9 +177,9 @@ public class SolvedCrawling {
 
     private void wait(WebDriver driver, By name) throws TimeoutException, NoSuchElementException {
 //        WebElement element = driver.findElement(name);
-//        JavascriptExecutor js = (JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
 //        js.executeScript("arguments[0].scrollIntoView({block: 'end', behavior: 'auto'});", element);
-//        js.executeScript("window.scrollBy(0, window.innerHeight);");
+        js.executeScript("window.scrollBy(0, window.innerHeight);");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(name));
 
