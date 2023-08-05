@@ -215,15 +215,17 @@ public class SolvedCrawling {
             System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver-linux64/chromedriver");
         }
 
-        ChromeOptions chromeOptions = new ChromeOptions().setHeadless(true);
+        ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--disk-cache-size=0");
         chromeOptions.addArguments("--media-cache-size=0");
         chromeOptions.addArguments("--headless=new");
+        chromeOptions.setHeadless(true);
 //        chromeOptions.addArguments("--headless");
         chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--disable-dev-shm-usage");
         chromeOptions.addArguments("--disable-gpu");
         chromeOptions.addArguments("--remote-allow-origins=*");
+        chromeOptions.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537");
         // binary 는 확인해야함 local 에서만
 //            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
         chromeOptions.setBinary("/usr/bin/google-chrome");
