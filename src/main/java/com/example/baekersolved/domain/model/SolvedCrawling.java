@@ -29,7 +29,6 @@ public class SolvedCrawling {
 
     /**
      * 백준에 있는 문제 크롤링 로직
-     *
      */
     // 문제 크롤링 ( 주 1회? 달 1회? ) 자주할 필요 X
     @Scheduled(cron = "30 28 22 * * *")
@@ -116,10 +115,11 @@ public class SolvedCrawling {
     /**
      * 사용자 정보
      * 각 티어별 정답 맞춘수 출력 가능
+     *
      * @param baekjoonId
      * @return
      */
-    public BaekJoonDto profileCrawling(String baekjoonId) throws IOException, InterruptedException{
+    public BaekJoonDto profileCrawling(String baekjoonId) throws IOException, InterruptedException {
         WebDriver driver = setDriver();
         sleep(1000);
         driver.get(SOLVED_BASE_URL + SOLVED_PROFILE + baekjoonId);
@@ -163,6 +163,7 @@ public class SolvedCrawling {
 
     /**
      * 문제 크롤링 페이징 처리
+     *
      * @return
      */
     private static WebDriver getDriverFromPool() {
@@ -179,21 +180,22 @@ public class SolvedCrawling {
 
     private void wait(WebDriver driver, By name) throws TimeoutException, NoSuchElementException {
 //        WebElement element = driver.findElement(name);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+//        JavascriptExecutor js = (JavascriptExecutor) driver;
 //        js.executeScript("arguments[0].scrollIntoView({block: 'end', behavior: 'auto'});", element);
-        js.executeScript("window.scrollBy(0, window.innerHeight);");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(name));
-
+//        js.executeScript("window.scrollBy(0, window.innerHeight);");
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(name));
+        WebDriverWait by = new WebDriverWait(driver, Duration.ofSeconds(10));
+        by.until(ExpectedConditions.visibilityOfElementLocated(name));
     }
 
-    private void initializeDriverPool(){
+    private void initializeDriverPool() {
         driverPool = new ConcurrentLinkedQueue<>();
         for (int i = 0; i <= 30; i++) {
             try {
                 WebDriver driver = setDriver();
                 driverPool.add(driver);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 log.error("{}", e.getMessage());
             }
         }
@@ -215,15 +217,15 @@ public class SolvedCrawling {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--disk-cache-size=0");
         chromeOptions.addArguments("--media-cache-size=0");
-            chromeOptions.addArguments("--headless=new");
+        chromeOptions.addArguments("--headless=new");
 //        chromeOptions.addArguments("--headless");
         chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--disable-dev-shm-usage");
         chromeOptions.addArguments("--disable-gpu");
         chromeOptions.addArguments("--remote-allow-origins=*");
         // binary 는 확인해야함 local 에서만
-//            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
-        chromeOptions.setBinary("/usr/bin/google-chrome");
+            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+//        chromeOptions.setBinary("/usr/bin/google-chrome");
         return new ChromeDriver(chromeOptions);
     }
 }
