@@ -1,5 +1,6 @@
 package com.example.baekersolved.exception.controller;
 
+import com.example.baekersolved.exception.CrawlingException;
 import com.example.baekersolved.exception.ErrorResponse;
 import com.example.baekersolved.exception.HttpResponseException;
 import com.example.baekersolved.exception.NotFoundException;
@@ -19,6 +20,12 @@ public class ExceptionController {
 
     @ExceptionHandler(HttpResponseException.class)
     public ResponseEntity<ErrorResponse> httpResponseExceptionHandler(HttpResponseException e) {
+        log.error(e.getMessage());
+        return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(CrawlingException.class)
+    public ResponseEntity<ErrorResponse> crawlingExceptionHandler(CrawlingException e) {
         log.error(e.getMessage());
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     }

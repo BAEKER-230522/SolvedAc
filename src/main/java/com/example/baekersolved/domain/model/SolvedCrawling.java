@@ -19,12 +19,12 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.*;
 
 import static com.example.baekersolved.constants.Address.*;
-import static com.example.baekersolved.global.config.WebDriverConfig.driverPool;
 import static java.lang.Thread.sleep;
 
 @Component
 @Slf4j
 public class SolvedCrawling {
+    public static ConcurrentLinkedQueue<WebDriver> driverPool;
 
     /**
      * 백준에 있는 문제 크롤링 로직
@@ -34,6 +34,7 @@ public class SolvedCrawling {
     @Scheduled(cron = "30 28 22 * * *")
     public void problemCrawling()
             throws NoSuchElementException, TimeoutException, StaleElementReferenceException, InterruptedException {
+        initializeDriverPool();
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         for (int level = 0; level <= 30; level++) {
             int finalI = level;
@@ -117,8 +118,8 @@ public class SolvedCrawling {
      * @param baekjoonId
      * @return
      */
-    public BaekJoonDto profileCrawling(String baekjoonId) {
-        WebDriver driver = getDriverFromPool();
+    public BaekJoonDto profileCrawling(String baekjoonId) throws IOException, InterruptedException{
+        WebDriver driver = setDriver();
         driver.get(SOLVED_BASE_URL + SOLVED_PROFILE + baekjoonId);
         // 지금까지 해결한 문제 수
         WebElement element = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[1]/div[2]/div/div/b"));
@@ -169,5 +170,45 @@ public class SolvedCrawling {
     private void wait(WebDriver driver, By name) throws TimeoutException, NoSuchElementException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(name));
+    }
+
+    private void initializeDriverPool(){
+        driverPool = new ConcurrentLinkedQueue<>();
+        for (int i = 0; i <= 30; i++) {
+            try {
+                WebDriver driver = setDriver();
+                driverPool.add(driver);
+            }catch (Exception e) {
+                log.error("{}", e.getMessage());
+            }
+        }
+    }
+
+    private WebDriver setDriver() throws IOException, InterruptedException {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win")) {
+            System.setProperty("webdriver.chrome.driver", "drivers/chromedriver_win.exe");
+        } else if (os.contains("mac")) {
+            Process process = Runtime.getRuntime().exec("xattr -d com.apple.quarantine drivers/chromedriver_mac");
+            process.waitFor();
+            System.setProperty("webdriver.chrome.driver", "drivers/chromedriver_mac");
+        } else if (os.contains("linux")) {
+            System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+        }
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--disk-cache-size=0");
+        chromeOptions.addArguments("--media-cache-size=0");
+//            chromeOptions.addArguments("--headless=new");
+        chromeOptions.addArguments("--headless");
+        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("--disable-dev-shm-usage");
+        chromeOptions.addArguments("--disable-gpu");
+        chromeOptions.addArguments("--remote-allow-origins=*");
+        // binary 는 확인해야함 local 에서만
+//            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+        chromeOptions.setBinary("/usr/bin/google-chrome");
+        return new ChromeDriver(chromeOptions);
     }
 }

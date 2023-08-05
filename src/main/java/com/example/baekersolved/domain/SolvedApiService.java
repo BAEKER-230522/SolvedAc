@@ -7,6 +7,7 @@ import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.model.SolvedApiManager;
 import com.example.baekersolved.domain.model.SolvedCrawling;
+import com.example.baekersolved.exception.CrawlingException;
 import com.example.baekersolved.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -123,7 +124,11 @@ public class SolvedApiService {
      * 백준 프로필 크롤링
      */
     public BaekJoonDto userProfile(String baekjoonId) {
-        return crawling.profileCrawling(baekjoonId);
+        try {
+            return crawling.profileCrawling(baekjoonId);
+        } catch (Exception e) {
+            throw new CrawlingException(e.getMessage());
+        }
     }
 
     /**
