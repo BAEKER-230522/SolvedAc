@@ -121,6 +121,7 @@ public class SolvedCrawling {
      */
     public BaekJoonDto profileCrawling(String baekjoonId) throws IOException, InterruptedException{
         WebDriver driver = setDriver();
+        sleep(1000);
         driver.get(SOLVED_BASE_URL + SOLVED_PROFILE + baekjoonId);
         // 지금까지 해결한 문제 수
 //        WebElement element = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[1]/div[2]/div/div/b"));
