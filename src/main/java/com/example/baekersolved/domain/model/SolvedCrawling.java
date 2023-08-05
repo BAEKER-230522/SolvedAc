@@ -2,6 +2,7 @@ package com.example.baekersolved.domain.model;
 
 import com.example.baekersolved.domain.dto.ProblemDto;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
+import com.example.baekersolved.exception.CrawlingException;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.TimeoutException;
@@ -122,11 +123,16 @@ public class SolvedCrawling {
         WebDriver driver = setDriver();
         driver.get(SOLVED_BASE_URL + SOLVED_PROFILE + baekjoonId);
         // 지금까지 해결한 문제 수
-        WebElement element = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[1]/div[2]/div/div/b"));
+//        WebElement element = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[1]/div[2]/div/div/b"));
 
-        int totalSolved = getUserSolvedCount(element, By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[1]/div[2]/div/div/b"));
-
-        WebElement elements = driver.findElement(By.className("css-1d9xc1d"));
+//        int totalSolved = getUserSolvedCount(element, By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[1]/div[2]/div/div/b"));
+        By solvedListBy = By.className("css-1d9xc1d");
+        try {
+            wait(driver, solvedListBy);
+        } catch (TimeoutException | NoSuchElementException e) {
+            throw new CrawlingException("사용자 정보를 찾을 수 없습니다. 다시 시도해 주세요");
+        }
+        WebElement elements = driver.findElement(solvedListBy);
         WebElement webElement = elements.findElement(By.className("css-1ojb0xa"));
         int bronze = getUserSolvedCount(webElement, By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[3]/div/table/tbody/tr[1]/td[2]/b"));
         int silver = getUserSolvedCount(webElement, By.xpath("//*[@id=\"__next\"]/div[3]/div/div[6]/div[3]/div/table/tbody/tr[2]/td[2]/b"));
