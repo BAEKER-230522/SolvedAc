@@ -39,8 +39,4 @@ scheduler:
     study: "0 0 19 * * *"
 
 
-custom:
-
-  server: 101.101.208.240  #ENC(0zWdK1NtpOSg0B/P5gqfGe+3WBULxDvm)
-
 

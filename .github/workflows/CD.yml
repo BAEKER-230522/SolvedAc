@@ -56,11 +56,11 @@ jobs:
       - name: Docker Hub 퍼블리시 # (5)
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}
 
-#  deploy:
-#    needs: build
-#    name: Deploy
-#    runs-on: [ self-hosted, label-sp ]
-#    steps:
-#      - name: deploy run
-#        run: |
-#          sh /kube/solved/run.sh
+  deploy:
+    needs: build
+    name: Deploy
+    runs-on: [ self-hosted, label-sp ]
+    steps:
+      - name: deploy run
+        run: |
+          sh /kube/solved/run.sh
