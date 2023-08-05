@@ -132,7 +132,8 @@ public class SolvedCrawling {
         try {
             wait(driver, solvedListBy);
         } catch (TimeoutException | NoSuchElementException e) {
-            e.printStackTrace();
+            log.error("{}", driver.getCurrentUrl());
+            log.error("{}", driver.getPageSource());
             throw new CrawlingException("사용자 정보를 찾을 수 없습니다. 다시 시도해 주세요");
         }
         WebElement elements = driver.findElement(solvedListBy);
