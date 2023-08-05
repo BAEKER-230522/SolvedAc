@@ -215,7 +215,7 @@ public class SolvedCrawling {
             System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver-linux64/chromedriver");
         }
 
-        ChromeOptions chromeOptions = new ChromeOptions();
+        ChromeOptions chromeOptions = new ChromeOptions().setHeadless(true);
         chromeOptions.addArguments("--disk-cache-size=0");
         chromeOptions.addArguments("--media-cache-size=0");
         chromeOptions.addArguments("--headless=new");
