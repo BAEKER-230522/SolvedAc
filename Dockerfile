@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
   apt -y install ./google-chrome-stable_current_amd64.deb && \
   wget -O /tmp/chromedriver.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/115.0.5790.170/linux64/chromedriver-linux64.zip && \
   unzip /tmp/chromedriver.zip -d /usr/bin && \
-  cp /usr/bin/chromedriver /usr/bin/chromedriver-linux64 && \   # 이 줄을 수정
+  cp /usr/bin/chromedriver /usr/bin/chromedriver-linux64 && \
   rm -rf /var/lib/apt/lists/* \
   ./google-chrome-stable_current_amd64.deb \
   /tmp/chromedriver.zip
