@@ -176,11 +176,11 @@ public class SolvedCrawling {
     }
 
     private void wait(WebDriver driver, By name) throws TimeoutException, NoSuchElementException {
-        WebElement element = driver.findElement(name);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView({block: 'end', behavior: 'auto'});", element);
-        js.executeScript("window.scrollBy(0, window.innerHeight);");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        WebElement element = driver.findElement(name);
+//        JavascriptExecutor js = (JavascriptExecutor) driver;
+//        js.executeScript("arguments[0].scrollIntoView({block: 'end', behavior: 'auto'});", element);
+//        js.executeScript("window.scrollBy(0, window.innerHeight);");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(name));
 
     }
