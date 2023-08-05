@@ -44,6 +44,7 @@ public class SolvedApiService {
 
         } catch (HttpClientErrorException e) {
             e.printStackTrace();
+            System.out.println(e.getMessage());
             throw new NotFoundException(NOT_FOUND_USER.getMsg());
         }
 
