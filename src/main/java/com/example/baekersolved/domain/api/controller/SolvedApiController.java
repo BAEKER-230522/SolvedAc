@@ -53,4 +53,9 @@ public class SolvedApiController {
         BaekJoonDto joinSolved = solvedApiService.getJoinSolved(baekJoonName);
         return RsData.successOf(joinSolved);
     }
+
+    @GetMapping("/v1/test")
+    public void testest() throws IOException, InterruptedException {
+        solvedApiService.test();
+    }
 }

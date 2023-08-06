@@ -144,4 +144,7 @@ public class SolvedApiService {
 //        String jsonStr = restTemplate.getForObject(STUDYRULE_URL, String.class);
 //    }
 
+    public void test() throws IOException, InterruptedException {
+        crawling.test();
+    }
 }

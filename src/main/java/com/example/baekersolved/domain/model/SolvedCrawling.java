@@ -162,6 +162,12 @@ public class SolvedCrawling {
         }
     }
 
+    public void test() throws IOException, InterruptedException {
+        WebDriver driver = setDriver();
+        driver.get("https://www.wanted.co.kr/jobsfeed");
+        log.info("{}", driver.getPageSource());
+    }
+
     /**
      * 문제 크롤링 페이징 처리
      *
