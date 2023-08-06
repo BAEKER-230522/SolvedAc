@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class Address {
     public static final String MEMBER_ALL = "/api/member/get/v1/all";
-    public static final String STUDYRULE_URL = "스터디 룰 주소 값";
+    public static final String STUDYRULE_ALL = "/api/studyrule/v1/search";
     public static final String SOLVED_BASE_URL = "https://solved.ac";
     public static final String SOLVED_PROFILE = "/profile/"; // /+id 입력
     public static final String SOLVED_PROBLEM_URL = "/problems/level/"; // /+level 입력 ex) 0~30

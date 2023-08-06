@@ -75,6 +75,6 @@ scheduler:
     study: "0 */5 * * * *"
 
 #custom:
-#  server: localhost
+#  server: http://localhost:9000
 custom:
   server: http://34.64.245.180 # Gateway 주소

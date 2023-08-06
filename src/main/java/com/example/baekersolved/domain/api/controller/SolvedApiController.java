@@ -6,6 +6,7 @@ import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.JoinRequest;
+import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.SolvedResponse;
 import com.example.baekersolved.exception.HttpResponseException;
 import com.example.baekersolved.exception.NotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_STUDY;
 import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;
 
 @RestController
@@ -61,12 +63,12 @@ public class SolvedApiController {
      * @return
      */
     @GetMapping("/v1/test")
-    public RsData<List<MemberDto>> test() {
+    public RsData<List<StudyRuleConsumeDto>> test() {
         try {
-            List<MemberDto> memberDtoList = solvedApiService.getMemberDtoList();
+            List<StudyRuleConsumeDto> memberDtoList = solvedApiService.getStudyRule();
             return RsData.successOf(memberDtoList);
         } catch (Exception e) {
-            throw new NotFoundException(NOT_FOUND_USER.getMsg());
+            throw new NotFoundException(NOT_FOUND_STUDY.getMsg());
         }
     }
 }
