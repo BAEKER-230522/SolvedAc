@@ -58,8 +58,8 @@ public class BatchConfiguration {
     public Tasklet tasklet() {
         return ((contribution, chunkContext) -> {
 
-            RsData<List<MemberDto>> memberList = solvedApiService.getMemberDtoList();
-            for (MemberDto member : memberList.getData()) {
+            List<MemberDto> memberList = solvedApiService.getMemberDtoList();
+            for (MemberDto member : memberList) {
                 try {
                     Thread.sleep(1000);
                     System.out.println(member.getBaekJoonName());

@@ -18,6 +18,29 @@ public class MemberDto {
     int ruby;
     int solvedCount;
 
+    public MemberDto(Long id, String baekJoonName, int bronze, int silver, int gold, int platinum, int diamond, int ruby) {
+        this.id = id;
+        this.baekJoonName = baekJoonName;
+        this.bronze = bronze;
+        this.silver = silver;
+        this.gold = gold;
+        this.platinum = platinum;
+        this.diamond = diamond;
+        this.ruby = ruby;
+        this.solvedCount = bronze + silver + gold + platinum + diamond + ruby;
+    }
+
+    public MemberDto(Object id, Object baekJoonName, Object bronze,Object silver, Object gold, Object platinum, Object diamond, Object ruby) {
+        this.id = (Long) id;
+        this.baekJoonName = (String) baekJoonName;
+        this.bronze = Integer.parseInt(bronze.toString());
+        this.silver = Integer.parseInt(silver.toString());
+        this.gold = Integer.parseInt(gold.toString());
+        this.platinum = Integer.parseInt(platinum.toString());
+        this.diamond = Integer.parseInt(diamond.toString());
+        this.ruby = Integer.parseInt(ruby.toString());
+        this.solvedCount = this.bronze + this.silver + this.gold + this.platinum + this.diamond + this.ruby;
+    }
 
     public MemberDto(MemberDto memberDto, BaekJoonDto baekJoonDto) {
         this.id = memberDto.getId();

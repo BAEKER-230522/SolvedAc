@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableBatchProcessing
 @EnableKafka
 @EnableFeignClients
-@EnableDiscoveryClient
 public class BaekerSolvedApplication {
 
 	public static void main(String[] args) {

@@ -3,6 +3,7 @@ package com.example.baekersolved.domain.api.controller;
 import com.example.baekersolved.constants.ExceptionMsg;
 import com.example.baekersolved.domain.SolvedApiService;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
+import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.JoinRequest;
 import com.example.baekersolved.domain.dto.response.SolvedResponse;
@@ -14,6 +15,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;
 
@@ -39,7 +41,7 @@ public class SolvedApiController {
     }
 
     /**
-     *  api 사용불가로 크롤링으로 수정 예정
+     * api 사용불가로 크롤링으로 수정 예정
      */
     @GetMapping("/v1/{problemId}")
     @Deprecated
@@ -54,8 +56,17 @@ public class SolvedApiController {
         return RsData.successOf(joinSolved);
     }
 
+    /**
+     * 외부 api 인 Member 호출 테스트
+     * @return
+     */
     @GetMapping("/v1/test")
-    public void testest() throws IOException, InterruptedException {
-        solvedApiService.test();
+    public RsData<List<MemberDto>> test() {
+        try {
+            List<MemberDto> memberDtoList = solvedApiService.getMemberDtoList();
+            return RsData.successOf(memberDtoList);
+        } catch (Exception e) {
+            throw new NotFoundException(NOT_FOUND_USER.getMsg());
+        }
     }
 }

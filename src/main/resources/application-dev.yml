@@ -8,18 +8,18 @@ spring:
     activate:
       on-profile: dev
 
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://127.0.0.1:8761/eureka/
+#eureka:
+#  instance:
+#    preferIpAddress: true
+#  client:
+#    registerWithEureka: true
+#    fetchRegistry: true
+#    serviceUrl:
+#      defaultZone: http://127.0.0.1:8761/eureka/
 scheduler:
   cron:
     member: "0 0 0 * * *"
     study: "0 0 0 * * *"
 
-custom:
-  server: localhost
+#custom:
+#  server: localhost

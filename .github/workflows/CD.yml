@@ -63,4 +63,4 @@ jobs:
     steps:
       - name: deploy run
         run: |
-          sh /kube/solved/run.sh
+          sh /home/ubuntu/run.sh

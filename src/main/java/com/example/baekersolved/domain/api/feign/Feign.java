@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 @FeignClient(name = "studyrule", url = "http://${custom.server}:9000")
+@Deprecated
 public interface Feign {
     /**
      * 기존의 스터디룰조회

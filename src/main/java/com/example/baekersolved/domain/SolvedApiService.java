@@ -1,6 +1,5 @@
 package com.example.baekersolved.domain;
 
-import com.example.baekersolved.domain.api.feign.Feign;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.common.RsData;
@@ -9,19 +8,24 @@ import com.example.baekersolved.domain.model.SolvedApiManager;
 import com.example.baekersolved.domain.model.SolvedCrawling;
 import com.example.baekersolved.exception.CrawlingException;
 import com.example.baekersolved.exception.NotFoundException;
+import com.example.baekersolved.global.config.RestTemplateConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_STUDY;
+import static com.example.baekersolved.constants.Address.MEMBER_ALL;
 import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;
 
 @Service
@@ -30,8 +34,11 @@ import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;
 @Slf4j
 public class SolvedApiService {
     private final SolvedApiManager solvedApiManager;
-    private final Feign feign;
+//    private final Feign feign;
     private final SolvedCrawling crawling;
+    private final RestTemplateConfig restTemplate;
+    @Value("${custom.server}")
+    public String GATEWAY_URL;
 
     /**
      * 난이도별 체크 후 문제풀이 수 리턴
@@ -99,23 +106,34 @@ public class SolvedApiService {
     }
 
     /**
-     * member
+     * member 정보 가져오기
      * TODO:에러 체크 확인 필요
      */
-    public RsData<List<MemberDto>> getMemberDtoList() {
-        return feign.getMember();
+    public List<MemberDto> getMemberDtoList() throws ParseException {
+        List<MemberDto> list = new ArrayList<>();
+        RestTemplate template = restTemplate.restTemplate();
+        String response = template.getForObject(GATEWAY_URL + MEMBER_ALL, String.class);
+        log.info("response : {}", response);
+        JSONParser parser = new JSONParser();
+
+        JSONObject jsonObject = (JSONObject) parser.parse(response);
+
+        JSONArray jsonArray = (JSONArray) parser.parse(jsonObject.get("data").toString());
+        for (Object o : jsonArray) {
+            JSONObject object = (JSONObject) o;
+            MemberDto dto = new MemberDto(object.get("id"), object.get("baekJoonName"), object.get("bronze"),object.get("silver"),  object.get("gold"),object.get("platinum"),object.get("diamond"), object.get("ruby"));
+            list.add(dto);
+        }
+        return list;
     }
 
 
     /**
      * StudyRule Feign
+     * TODO: 테스트 후 다시 작성
      */
     public List<StudyRuleConsumeDto> getStudyRule() {
-        RsData<List<StudyRuleConsumeDto>> studyRule = feign.getStudyRule();
-        if (studyRule.isFail()) {
-            throw new NotFoundException(NOT_FOUND_STUDY.getMsg());
-        }
-        return studyRule.getData();
+        return null;
     }
 
     @Deprecated
@@ -144,7 +162,4 @@ public class SolvedApiService {
 //        String jsonStr = restTemplate.getForObject(STUDYRULE_URL, String.class);
 //    }
 
-    public void test() throws IOException, InterruptedException {
-        crawling.test();
-    }
 }
