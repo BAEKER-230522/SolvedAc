@@ -31,7 +31,7 @@ public class SolvedCrawling {
      * 백준에 있는 문제 크롤링 로직
      */
     // 문제 크롤링 ( 주 1회? 달 1회? ) 자주할 필요 X
-    @Scheduled(cron = "30 58 22 * * *")
+//    @Scheduled(cron = "30 58 22 * * *")
     public void problemCrawling()
             throws NoSuchElementException, TimeoutException, StaleElementReferenceException, InterruptedException {
         initializeDriverPool();
@@ -225,8 +225,8 @@ public class SolvedCrawling {
         chromeOptions.addArguments("--remote-allow-origins=*");
         chromeOptions.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
         // binary 는 확인해야함 local 에서만
-            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
-//        chromeOptions.setBinary("/usr/bin/google-chrome");
+//            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+        chromeOptions.setBinary("/usr/bin/google-chrome");
         return new ChromeDriver(chromeOptions);
     }
 }
