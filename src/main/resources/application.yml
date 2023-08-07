@@ -10,7 +10,7 @@ spring:
     jdbc:
       initialize-schema: always
   kafka:
-    bootstrap-servers: 10.22.128.222:9092 # TODO: kafka 서버 주소나오면 입력
+    bootstrap-servers: 34.22.94.177:19092 # TODO: kafka 서버 주소나오면 입력
     consumer:
       group-id: solved
       auto-offset-reset: earliest

@@ -3,10 +3,9 @@ package com.example.baekersolved.batch;
 import com.example.baekersolved.domain.SolvedApiService;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.MemberDto;
-import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.StudyRuleProduceDto;
-import com.example.baekersolved.exception.NotFoundException;
+import com.example.baekersolved.exception.exception.NotFoundException;
 import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +19,12 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Configuration
 @Slf4j

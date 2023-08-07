@@ -6,8 +6,8 @@ import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.model.SolvedApiManager;
 import com.example.baekersolved.domain.model.SolvedCrawling;
-import com.example.baekersolved.exception.CrawlingException;
-import com.example.baekersolved.exception.NotFoundException;
+import com.example.baekersolved.exception.exception.CrawlingException;
+import com.example.baekersolved.exception.exception.NotFoundException;
 import com.example.baekersolved.global.config.RestTemplateConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.List;
 
 import static com.example.baekersolved.constants.Address.MEMBER_ALL;
 import static com.example.baekersolved.constants.Address.STUDYRULE_ALL;
-import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;
+import static com.example.baekersolved.exception.ErrorStatus.NOT_FOUND_USER;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,10 +49,8 @@ public class SolvedApiService {
         JSONArray test;
         try {
             test = this.solvedApiManager.getProblemCount(baekJoonName);
-
         } catch (HttpClientErrorException e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
             throw new NotFoundException(NOT_FOUND_USER.getMsg());
         }
 
@@ -148,7 +146,7 @@ public class SolvedApiService {
         return list;
     }
 
-    @Deprecated
+//    @Deprecated
     public String getSolvedSubject(int problemId) throws Exception{
         return solvedApiManager.getSubject(problemId);
     }
