@@ -79,7 +79,7 @@ public class BatchConfiguration {
                     MemberSolvedUpdateDto updateDto = new MemberSolvedUpdateDto(member.getId(), dto.getBronze(), dto.getSilver(), dto.getGold(), dto.getDiamond(), dto.getRuby(), dto.getPlatinum());
                     RestTemplate restTemplate = restTemplate();
                     restTemplate.postForObject(GATEWAY_URL + Address.MEMBER_SOLVED_UPDATE, updateDto, Void.class);
-                } catch (NullPointerException | HttpClientErrorException | InterruptedException | NotFoundException e) {
+                } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
             }
