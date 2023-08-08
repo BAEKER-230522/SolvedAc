@@ -1,7 +1,9 @@
 package com.example.baekersolved.domain.model;
 
 import com.example.baekersolved.domain.dto.ProblemDto;
+import com.example.baekersolved.domain.dto.RecentProblemDto;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
+import com.example.baekersolved.domain.dto.response.UserRecentProblem;
 import com.example.baekersolved.exception.exception.CrawlingException;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.*;
@@ -153,13 +156,25 @@ public class SolvedCrawling {
      * 최근의 푼 문제
      * ex) 1000, 1001 번 풀었는지 확인 가능
      */
-    public void missionSolvedCheck(String baekJoonId) {
-        WebDriver driver = getDriverFromPool();
+    public UserRecentProblem missionSolvedCheck(String baekJoonId, int lastSolvedId) throws IOException, InterruptedException {
+        WebDriver driver = setDriver();
         driver.get(BAEKJOON_BASE_URL + BAEKJOON_SOLVED_URL + baekJoonId + BAEKJOON_SOLVED_END);
-        List<WebElement> problemTitle = driver.findElements(By.className("problem_title"));
-        for (WebElement webElement : problemTitle) {
-            System.out.println(webElement.getText());
-        }
+        By recentXpath = By.xpath("//*[@id=\"solution-64662791\"]/td[1]");
+
+        List<RecentProblemDto> recentProblemDtos = new ArrayList<>();
+        WebElement tBody = driver.findElement(By.xpath("//*[@id=\"status-table\"]/tbody"));
+        String recentProblemId = driver.findElement(recentXpath).getText();
+        tBody.findElements(By.tagName("tr")).forEach(tr -> {
+            String solvedId = tr.findElements(By.tagName("td")).get(0).getText();
+            String problemNum = tr.findElements(By.tagName("td")).get(2).getText();
+            if (lastSolvedId < Integer.parseInt(problemNum)) {
+                RecentProblemDto dto = new RecentProblemDto(solvedId, problemNum); // 최근 푼 문제 dto
+                recentProblemDtos.add(dto);
+            }
+
+        });
+        driver.quit();
+        return new UserRecentProblem(recentProblemDtos, recentProblemId);
     }
 
     /**
@@ -180,12 +195,6 @@ public class SolvedCrawling {
     }
 
     private void wait(WebDriver driver, By name) throws TimeoutException, NoSuchElementException {
-//        WebElement element = driver.findElement(name);
-//        JavascriptExecutor js = (JavascriptExecutor) driver;
-//        js.executeScript("arguments[0].scrollIntoView({block: 'end', behavior: 'auto'});", element);
-//        js.executeScript("window.scrollBy(0, window.innerHeight);");
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(name));
         WebDriverWait by = new WebDriverWait(driver, Duration.ofSeconds(10));
         by.until(ExpectedConditions.visibilityOfElementLocated(name));
     }
@@ -225,8 +234,8 @@ public class SolvedCrawling {
         chromeOptions.addArguments("--remote-allow-origins=*");
         chromeOptions.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
         // binary 는 확인해야함 local 에서만
-//            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
-        chromeOptions.setBinary("/usr/bin/google-chrome");
+            chromeOptions.setBinary("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+//        chromeOptions.setBinary("/usr/bin/google-chrome");
         return new ChromeDriver(chromeOptions);
     }
 }

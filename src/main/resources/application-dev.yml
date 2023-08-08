@@ -20,6 +20,7 @@ scheduler:
   cron:
     member: "0 0 0 * * *"
     study: "0 0 0 * * *"
+    lastSolved: "30 41 20 * * *"
 
 #custom:
 #  server: localhost

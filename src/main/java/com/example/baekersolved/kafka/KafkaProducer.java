@@ -2,6 +2,7 @@ package com.example.baekersolved.kafka;
 
 import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.response.StudyRuleProduceDto;
+import com.example.baekersolved.domain.dto.response.UserRecentProblem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -33,6 +34,9 @@ public class KafkaProducer {
 
     public void sendStudy(StudyRuleProduceDto dto) {
         this.kafkaTemplate.send(studyRule, dto);
+    }
+    public void sendRecentProblem(UserRecentProblem recentProblem) {
+        this.kafkaTemplate.send(studyRule, recentProblem);
     }
 }
 
