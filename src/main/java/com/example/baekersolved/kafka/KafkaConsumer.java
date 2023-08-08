@@ -1,7 +1,8 @@
 package com.example.baekersolved.kafka;
 
 import com.example.baekersolved.domain.SolvedApiService;
-import com.example.baekersolved.exception.NotFoundException;
+import com.example.baekersolved.exception.ErrorStatus;
+import com.example.baekersolved.exception.exception.NotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +16,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+
+import static com.example.baekersolved.exception.ErrorStatus.NOT_FOUND_USER;
 
 @Service
 @Slf4j
@@ -42,7 +45,7 @@ public class KafkaConsumer {
             Integer memberId = (Integer) map.get("id");
             Long longId = memberId.longValue();
         } catch (NoSuchElementException e) {
-            throw new NotFoundException("Member 데이터 없음");
+            throw new NotFoundException(NOT_FOUND_USER.getMsg());
         }
     }
 }

@@ -1,9 +1,8 @@
 package com.example.baekersolved.domain.model;
 
-import com.example.baekersolved.exception.HttpResponseException;
+import com.example.baekersolved.exception.exception.HttpResponseException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

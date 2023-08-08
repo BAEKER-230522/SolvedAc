@@ -2,7 +2,7 @@ package com.example.baekersolved.domain.model;
 
 import com.example.baekersolved.domain.dto.ProblemDto;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
-import com.example.baekersolved.exception.CrawlingException;
+import com.example.baekersolved.exception.exception.CrawlingException;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.TimeoutException;
@@ -31,7 +31,7 @@ public class SolvedCrawling {
      * 백준에 있는 문제 크롤링 로직
      */
     // 문제 크롤링 ( 주 1회? 달 1회? ) 자주할 필요 X
-    @Scheduled(cron = "30 28 22 * * *")
+//    @Scheduled(cron = "30 58 22 * * *")
     public void problemCrawling()
             throws NoSuchElementException, TimeoutException, StaleElementReferenceException, InterruptedException {
         initializeDriverPool();

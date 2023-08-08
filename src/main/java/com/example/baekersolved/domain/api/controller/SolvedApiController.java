@@ -1,14 +1,11 @@
 package com.example.baekersolved.domain.api.controller;
 
-import com.example.baekersolved.constants.ExceptionMsg;
 import com.example.baekersolved.domain.SolvedApiService;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
-import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.common.RsData;
-import com.example.baekersolved.domain.dto.request.JoinRequest;
+import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.SolvedResponse;
-import com.example.baekersolved.exception.HttpResponseException;
-import com.example.baekersolved.exception.NotFoundException;
+import com.example.baekersolved.exception.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
@@ -17,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;
+import static com.example.baekersolved.exception.ErrorStatus.NOT_FOUND_STUDY;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,7 +41,7 @@ public class SolvedApiController {
      * api 사용불가로 크롤링으로 수정 예정
      */
     @GetMapping("/v1/{problemId}")
-    @Deprecated
+//    @Deprecated
     public RsData<SolvedResponse> getSolvedSubject(@PathVariable("problemId") Integer problemId) throws Exception {
         String solvedSubject = solvedApiService.getSolvedSubject(problemId);
         return RsData.successOf(new SolvedResponse(solvedSubject));
@@ -61,12 +58,12 @@ public class SolvedApiController {
      * @return
      */
     @GetMapping("/v1/test")
-    public RsData<List<MemberDto>> test() {
+    public RsData<List<StudyRuleConsumeDto>> test() {
         try {
-            List<MemberDto> memberDtoList = solvedApiService.getMemberDtoList();
+            List<StudyRuleConsumeDto> memberDtoList = solvedApiService.getStudyRule();
             return RsData.successOf(memberDtoList);
         } catch (Exception e) {
-            throw new NotFoundException(NOT_FOUND_USER.getMsg());
+            throw new NotFoundException(NOT_FOUND_STUDY.getMsg());
         }
     }
 }

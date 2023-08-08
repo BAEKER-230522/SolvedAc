@@ -6,8 +6,8 @@ import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.model.SolvedApiManager;
 import com.example.baekersolved.domain.model.SolvedCrawling;
-import com.example.baekersolved.exception.CrawlingException;
-import com.example.baekersolved.exception.NotFoundException;
+import com.example.baekersolved.exception.exception.CrawlingException;
+import com.example.baekersolved.exception.exception.NotFoundException;
 import com.example.baekersolved.global.config.RestTemplateConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.baekersolved.constants.Address.MEMBER_ALL;
-import static com.example.baekersolved.constants.ExceptionMsg.NOT_FOUND_USER;
+import static com.example.baekersolved.constants.Address.STUDYRULE_ALL;
+import static com.example.baekersolved.exception.ErrorStatus.NOT_FOUND_USER;
 
 @Service
 @Transactional(readOnly = true)
@@ -48,10 +49,8 @@ public class SolvedApiService {
         JSONArray test;
         try {
             test = this.solvedApiManager.getProblemCount(baekJoonName);
-
         } catch (HttpClientErrorException e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
             throw new NotFoundException(NOT_FOUND_USER.getMsg());
         }
 
@@ -111,9 +110,8 @@ public class SolvedApiService {
      */
     public List<MemberDto> getMemberDtoList() throws ParseException {
         List<MemberDto> list = new ArrayList<>();
-        RestTemplate template = restTemplate.restTemplate();
-        String response = template.getForObject(GATEWAY_URL + MEMBER_ALL, String.class);
-        log.info("response : {}", response);
+        String response = restTemplate().getForObject(GATEWAY_URL + MEMBER_ALL, String.class);
+
         JSONParser parser = new JSONParser();
 
         JSONObject jsonObject = (JSONObject) parser.parse(response);
@@ -129,14 +127,26 @@ public class SolvedApiService {
 
 
     /**
-     * StudyRule Feign
+     * StudyRule
      * TODO: 테스트 후 다시 작성
      */
-    public List<StudyRuleConsumeDto> getStudyRule() {
-        return null;
+    public List<StudyRuleConsumeDto> getStudyRule() throws ParseException {
+        List<StudyRuleConsumeDto> list = new ArrayList<>();
+        String response = restTemplate().getForObject(GATEWAY_URL + STUDYRULE_ALL, String.class);
+
+        JSONParser parser = new JSONParser();
+
+        JSONObject jsonObject = (JSONObject) parser.parse(response);
+        JSONArray jsonArray = (JSONArray) parser.parse(jsonObject.get("data").toString());
+        for (Object o : jsonArray) {
+            JSONObject object = (JSONObject) o;
+            StudyRuleConsumeDto dto = new StudyRuleConsumeDto(Long.parseLong(object.get("id").toString()), object.get("name").toString(),object.get("about").toString() ,Long.parseLong(object.get("ruleId").toString()));
+            list.add(dto);
+        }
+        return list;
     }
 
-    @Deprecated
+//    @Deprecated
     public String getSolvedSubject(int problemId) throws Exception{
         return solvedApiManager.getSubject(problemId);
     }
@@ -162,4 +172,7 @@ public class SolvedApiService {
 //        String jsonStr = restTemplate.getForObject(STUDYRULE_URL, String.class);
 //    }
 
+    private RestTemplate restTemplate() {
+        return restTemplate.restTemplate();
+    }
 }

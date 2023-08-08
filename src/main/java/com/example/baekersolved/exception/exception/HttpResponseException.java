@@ -1,4 +1,4 @@
-package com.example.baekersolved.exception;
+package com.example.baekersolved.exception.exception;
 
 import lombok.NoArgsConstructor;
 

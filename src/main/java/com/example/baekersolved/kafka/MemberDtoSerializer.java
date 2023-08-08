@@ -1,7 +1,7 @@
 package com.example.baekersolved.kafka;
 
 import com.example.baekersolved.domain.dto.common.MemberDto;
-import com.example.baekersolved.exception.NotFoundException;
+import com.example.baekersolved.exception.exception.NotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
