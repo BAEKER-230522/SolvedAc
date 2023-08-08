@@ -40,4 +40,10 @@ public class BatchScheduler {
         jobLauncher.run(batchConfiguration.studyJob(jobRepository),
                 new JobParametersBuilder().addDate("date", new Date()).toJobParameters());
     }
+
+    @Scheduled(cron = "${scheduler.cron.lastSolved}")
+    public void runLastSolved() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
+        jobLauncher.run(batchConfiguration.lastSolvedJob(jobRepository),
+                new JobParametersBuilder().addDate("date", new Date()).toJobParameters());
+    }
 }

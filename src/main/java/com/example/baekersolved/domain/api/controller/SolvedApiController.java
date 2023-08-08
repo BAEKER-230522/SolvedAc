@@ -5,6 +5,7 @@ import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.SolvedResponse;
+import com.example.baekersolved.domain.dto.response.UserRecentProblem;
 import com.example.baekersolved.exception.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

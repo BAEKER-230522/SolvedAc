@@ -73,6 +73,7 @@ scheduler:
   cron:
     member: "0 */3 * * * *"
     study: "0 */5 * * * *"
+    lastSolved: "0 */10 * * * *"
 
 #custom:
 #  server: http://localhost:9000

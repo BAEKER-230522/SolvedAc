@@ -4,8 +4,10 @@ import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
+import com.example.baekersolved.domain.dto.response.UserRecentProblem;
 import com.example.baekersolved.domain.model.SolvedApiManager;
 import com.example.baekersolved.domain.model.SolvedCrawling;
+import com.example.baekersolved.exception.ErrorStatus;
 import com.example.baekersolved.exception.exception.CrawlingException;
 import com.example.baekersolved.exception.exception.NotFoundException;
 import com.example.baekersolved.global.config.RestTemplateConfig;
@@ -44,7 +46,6 @@ public class SolvedApiService {
     /**
      * 난이도별 체크 후 문제풀이 수 리턴
      */
-    @Deprecated
     private Integer getSolvedCount(String baekJoonName, Integer min, Integer max) throws IOException, ParseException {
         JSONArray test;
         try {
@@ -66,7 +67,6 @@ public class SolvedApiService {
     /**
      * Batch Logic
      */
-    @Deprecated
     public RsData<BaekJoonDto> batchLogic(MemberDto memberDto) throws IOException, ParseException, NotFoundException {
         int Bronze = getSolvedCount(memberDto.getBaekJoonName(), 1, 6) - memberDto.getBronze();
 
@@ -119,7 +119,7 @@ public class SolvedApiService {
         JSONArray jsonArray = (JSONArray) parser.parse(jsonObject.get("data").toString());
         for (Object o : jsonArray) {
             JSONObject object = (JSONObject) o;
-            MemberDto dto = new MemberDto(object.get("id"), object.get("baekJoonName"), object.get("bronze"),object.get("silver"),  object.get("gold"),object.get("platinum"),object.get("diamond"), object.get("ruby"));
+            MemberDto dto = new MemberDto(object.get("id"), object.get("baekJoonName"), object.get("bronze"),object.get("silver"),  object.get("gold"),object.get("platinum"),object.get("diamond"), object.get("ruby"), object.get("lastSolvedProblemId"));
             list.add(dto);
         }
         return list;
@@ -165,8 +165,12 @@ public class SolvedApiService {
     /**
      * 최근 푼 문제 크롤링
      */
-    public void recentSolvingProblem(String id) {
-        crawling.missionSolvedCheck(id);
+    public UserRecentProblem recentSolvingProblem(String baekjoonId, int lastSolvedId) {
+        try {
+            return crawling.missionSolvedCheck(baekjoonId, lastSolvedId);
+        } catch (IOException | InterruptedException e) {
+            throw new CrawlingException(ErrorStatus.CRAWLING_ERROR.getMsg());
+        }
     }
 //    public List<StudyRuleDto> getStudyRuleDtoList() {
 //        String jsonStr = restTemplate.getForObject(STUDYRULE_URL, String.class);
