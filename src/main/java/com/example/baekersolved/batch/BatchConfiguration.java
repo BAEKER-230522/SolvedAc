@@ -4,6 +4,7 @@ import com.example.baekersolved.constants.Address;
 import com.example.baekersolved.domain.SolvedApiService;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.MemberDto;
+import com.example.baekersolved.domain.dto.request.MemberSolvedUpdateDto;
 import com.example.baekersolved.domain.dto.request.RecentUpdateDto;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.StudyRuleProduceDto;
@@ -43,7 +44,7 @@ import static com.example.baekersolved.constants.Address.MEMBER_LASTSOLVEDID_UPD
 public class BatchConfiguration {
 
     private final SolvedApiService solvedApiService;
-    private final KafkaProducer producer;
+//    private final KafkaProducer producer; TODO: kafka 작업 후 kafka 로 변경
     private final PlatformTransactionManager transactionManager;
     private final RestTemplateConfig restTemplate;
     @Value("${custom.server}")
@@ -71,11 +72,13 @@ public class BatchConfiguration {
             for (MemberDto member : memberList) {
                 try {
                     Thread.sleep(1000);
-                    System.out.println(member.getBaekJoonName());
                     BaekJoonDto dto = solvedApiService.batchLogic(member).getData(); // 오늘값 - 어제값 풀이 수
 
-                    MemberDto updateDto = new MemberDto(member, dto); // 새로운 memberDto
-                    producer.sendMember(updateDto);
+//                    MemberDto updateDto = new MemberDto(member, dto); // 새로운 memberDto
+//                    producer.sendMember(updateDto);
+                    MemberSolvedUpdateDto updateDto = new MemberSolvedUpdateDto(member.getId(), dto.getBronze(), dto.getSilver(), dto.getGold(), dto.getDiamond(), dto.getRuby(), dto.getPlatinum());
+                    RestTemplate restTemplate = restTemplate();
+                    restTemplate.postForObject(GATEWAY_URL + Address.MEMBER_SOLVED_UPDATE, updateDto, Void.class);
                 } catch (NullPointerException | HttpClientErrorException | InterruptedException | NotFoundException e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
@@ -108,7 +111,7 @@ public class BatchConfiguration {
             List<StudyRuleConsumeDto> dtoList = solvedApiService.getStudyRule();
             for (StudyRuleConsumeDto dto : dtoList) {
                 Long studyRuleId = dto.id();
-                producer.sendStudy(new StudyRuleProduceDto(studyRuleId));
+//                producer.sendStudy(new StudyRuleProduceDto(studyRuleId));
                 // studyRule ->
             }
             return RepeatStatus.FINISHED;
@@ -147,7 +150,7 @@ public class BatchConfiguration {
                     int recentProblemId = Integer.parseInt(userRecentProblem.recentProblemId());
                     RecentUpdateDto dto = new RecentUpdateDto(member.getId(), recentProblemId);
                     restTemplate.postForObject(GATEWAY_URL + MEMBER_LASTSOLVEDID_UPDATE, dto, Void.class);
-                } catch (NullPointerException | HttpClientErrorException | InterruptedException | NotFoundException e) {
+                } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
             }

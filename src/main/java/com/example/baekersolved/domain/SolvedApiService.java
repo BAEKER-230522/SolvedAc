@@ -46,7 +46,6 @@ public class SolvedApiService {
     /**
      * 난이도별 체크 후 문제풀이 수 리턴
      */
-    @Deprecated
     private Integer getSolvedCount(String baekJoonName, Integer min, Integer max) throws IOException, ParseException {
         JSONArray test;
         try {
@@ -68,7 +67,6 @@ public class SolvedApiService {
     /**
      * Batch Logic
      */
-    @Deprecated
     public RsData<BaekJoonDto> batchLogic(MemberDto memberDto) throws IOException, ParseException, NotFoundException {
         int Bronze = getSolvedCount(memberDto.getBaekJoonName(), 1, 6) - memberDto.getBronze();
 

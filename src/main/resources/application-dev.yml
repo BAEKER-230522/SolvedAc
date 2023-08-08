@@ -18,8 +18,8 @@ spring:
 #      defaultZone: http://127.0.0.1:8761/eureka/
 scheduler:
   cron:
-    member: "0 0 0 * * *"
-    study: "0 0 0 * * *"
+    member: "30 49 22 * * *"
+    study: "30 47 22 * * *"
     lastSolved: "30 41 20 * * *"
 
 #custom:
