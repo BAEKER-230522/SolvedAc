@@ -19,7 +19,7 @@ spring:
 scheduler:
   cron:
     member: "30 33 23 * * *"
-    study: "30 47 22 * * *"
+    study: "30 17 10 * * *"
     lastSolved: "30 41 20 * * *"
 
 #custom:
