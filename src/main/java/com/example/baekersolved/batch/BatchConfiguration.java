@@ -32,11 +32,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-import static com.example.baekersolved.constants.Address.MEMBER_LASTSOLVEDID_UPDATE;
+import static com.example.baekersolved.constants.Address.*;
 
 @Configuration
 @Slf4j
@@ -113,6 +114,13 @@ public class BatchConfiguration {
                 Long studyRuleId = dto.id();
 //                producer.sendStudy(new StudyRuleProduceDto(studyRuleId));
                 // studyRule ->
+                RestTemplate restTemplate = restTemplate();
+                try {
+                    restTemplate.getForObject(GATEWAY_URL + STUDYRULE_UPDATE + studyRuleId + STUDYRULE_UPDATE_END, Void.class);
+                } catch (HttpServerErrorException e) {
+                    log.error(e.getMessage()); // 503 서버 에러
+                }
+
             }
             return RepeatStatus.FINISHED;
         };
