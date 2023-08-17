@@ -171,7 +171,6 @@ public class SolvedCrawling {
                 RecentProblemDto dto = new RecentProblemDto(solvedId, problemNum); // 최근 푼 문제 dto
                 recentProblemDtos.add(dto);
             }
-
         });
         driver.quit();
         return new UserRecentProblem(recentProblemDtos, recentProblemId);
