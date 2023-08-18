@@ -2,6 +2,7 @@ package com.example.baekersolved.batch;
 
 import com.example.baekersolved.constants.Address;
 import com.example.baekersolved.domain.SolvedApiService;
+import com.example.baekersolved.domain.dto.ProblemNumberDto;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.request.MemberSolvedUpdateDto;
@@ -145,12 +146,19 @@ public class BatchConfiguration {
                     Thread.sleep(1000);
                     int lastSolvedProblemId = member.getLastSolvedProblemId();
                     String baekJoonName = member.getBaekJoonName();
-                    UserRecentProblem userRecentProblem = solvedApiService.recentSolvingProblem(baekJoonName, lastSolvedProblemId);
+
+                    UserRecentProblem userRecentProblem = solvedApiService.recentSolvingProblem(member.getId(),baekJoonName, lastSolvedProblemId);
 //                    producer.sendRecentProblem(userRecentProblem); TODO: kafka 작업 후 kafka 로 변경
                     RestTemplate restTemplate = restTemplate();
                     int recentProblemId = Integer.parseInt(userRecentProblem.recentProblemId());
                     RecentUpdateDto dto = new RecentUpdateDto(member.getId(), recentProblemId);
                     restTemplate.postForObject(GATEWAY_URL + MEMBER_LASTSOLVEDID_UPDATE, dto, Void.class);
+
+                    List<ProblemNumberDto> problemNumberDtos = userRecentProblem.recentProblemDtos().stream()
+                            .map(o -> new ProblemNumberDto(o.problemId())).toList();
+
+                    restTemplate.postForObject(GATEWAY_URL + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
+
                 } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }

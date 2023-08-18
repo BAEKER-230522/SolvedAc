@@ -165,7 +165,7 @@ public class SolvedApiService {
     /**
      * 최근 푼 문제 크롤링
      */
-    public UserRecentProblem recentSolvingProblem(String baekjoonId, int lastSolvedId) {
+    public UserRecentProblem recentSolvingProblem(Long memberId,String baekjoonId, int lastSolvedId) {
         try {
             return crawling.missionSolvedCheck(baekjoonId, lastSolvedId);
         } catch (IOException | InterruptedException e) {
