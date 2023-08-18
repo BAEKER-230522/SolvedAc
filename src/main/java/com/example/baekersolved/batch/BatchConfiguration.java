@@ -2,28 +2,23 @@ package com.example.baekersolved.batch;
 
 import com.example.baekersolved.constants.Address;
 import com.example.baekersolved.domain.SolvedApiService;
+import com.example.baekersolved.domain.dto.ProblemNumberDto;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.request.MemberSolvedUpdateDto;
 import com.example.baekersolved.domain.dto.request.RecentUpdateDto;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
-import com.example.baekersolved.domain.dto.response.StudyRuleProduceDto;
 import com.example.baekersolved.domain.dto.response.UserRecentProblem;
-import com.example.baekersolved.exception.exception.NotFoundException;
 import com.example.baekersolved.global.config.RestTemplateConfig;
-import com.example.baekersolved.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
-import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
@@ -31,7 +26,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -152,12 +146,19 @@ public class BatchConfiguration {
                     Thread.sleep(1000);
                     int lastSolvedProblemId = member.getLastSolvedProblemId();
                     String baekJoonName = member.getBaekJoonName();
-                    UserRecentProblem userRecentProblem = solvedApiService.recentSolvingProblem(baekJoonName, lastSolvedProblemId);
+
+                    UserRecentProblem userRecentProblem = solvedApiService.recentSolvingProblem(member.getId(),baekJoonName, lastSolvedProblemId);
 //                    producer.sendRecentProblem(userRecentProblem); TODO: kafka 작업 후 kafka 로 변경
                     RestTemplate restTemplate = restTemplate();
                     int recentProblemId = Integer.parseInt(userRecentProblem.recentProblemId());
                     RecentUpdateDto dto = new RecentUpdateDto(member.getId(), recentProblemId);
                     restTemplate.postForObject(GATEWAY_URL + MEMBER_LASTSOLVEDID_UPDATE, dto, Void.class);
+
+                    List<ProblemNumberDto> problemNumberDtos = userRecentProblem.recentProblemDtos().stream()
+                            .map(o -> new ProblemNumberDto(o.problemId())).toList();
+
+                    restTemplate.postForObject(GATEWAY_URL + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
+
                 } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
