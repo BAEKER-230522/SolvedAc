@@ -7,12 +7,10 @@ import com.example.baekersolved.domain.dto.response.UserRecentProblem;
 import com.example.baekersolved.exception.exception.CrawlingException;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -20,7 +18,10 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static com.example.baekersolved.constants.Address.*;
 import static java.lang.Thread.sleep;
@@ -167,7 +168,9 @@ public class SolvedCrawling {
         tBody.findElements(By.tagName("tr")).forEach(tr -> {
             String solvedId = tr.findElements(By.tagName("td")).get(0).getText();
             String problemNum = tr.findElements(By.tagName("td")).get(2).getText();
-            if (lastSolvedId < Integer.parseInt(problemNum)) {
+            if (lastSolvedId < Integer.parseInt(solvedId)) {
+//                System.out.println("memory" + tr.findElements(By.tagName("td")).get(4).getText());
+//                System.out.println("time" + tr.findElements(By.tagName("td")).get(5).getText());
                 RecentProblemDto dto = new RecentProblemDto(solvedId, problemNum); // 최근 푼 문제 dto
                 recentProblemDtos.add(dto);
             }

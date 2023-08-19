@@ -5,12 +5,14 @@ import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.SolvedResponse;
-import com.example.baekersolved.domain.dto.response.UserRecentProblem;
 import com.example.baekersolved.exception.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
@@ -66,5 +68,10 @@ public class SolvedApiController {
         } catch (Exception e) {
             throw new NotFoundException(NOT_FOUND_STUDY.getMsg());
         }
+    }
+
+    @GetMapping("/v1/test2")
+    public void test2() {
+        solvedApiService.recentSolvingProblem(1L, "wy9295",64662791);
     }
 }
