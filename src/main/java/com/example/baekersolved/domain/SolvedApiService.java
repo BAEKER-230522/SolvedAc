@@ -43,6 +43,9 @@ public class SolvedApiService {
     @Value("${custom.server}")
     public String GATEWAY_URL;
 
+    @Value("${custom.port}")
+    private String PORT;
+
     /**
      * 난이도별 체크 후 문제풀이 수 리턴
      */
@@ -110,7 +113,7 @@ public class SolvedApiService {
      */
     public List<MemberDto> getMemberDtoList() throws ParseException {
         List<MemberDto> list = new ArrayList<>();
-        String response = restTemplate().getForObject(GATEWAY_URL + MEMBER_ALL, String.class);
+        String response = restTemplate().getForObject(GATEWAY_URL + PORT + MEMBER_ALL, String.class);
 
         JSONParser parser = new JSONParser();
 
@@ -132,7 +135,7 @@ public class SolvedApiService {
      */
     public List<StudyRuleConsumeDto> getStudyRule() throws ParseException {
         List<StudyRuleConsumeDto> list = new ArrayList<>();
-        String response = restTemplate().getForObject(GATEWAY_URL + STUDYRULE_ALL, String.class);
+        String response = restTemplate().getForObject(GATEWAY_URL + PORT + STUDYRULE_ALL, String.class);
 
         JSONParser parser = new JSONParser();
 
