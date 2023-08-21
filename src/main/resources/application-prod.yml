@@ -35,9 +35,9 @@ logging.level:
 
 scheduler:
   cron:
-    member: "0 0 18 * * *"
-    study: "0 0 19 * * *"
-    lastSolved: "0 0 20 * * *"
+    member: "0 0 18/6 * * *"
+    study: "0 0 19/6 * * *"
+    lastSolved: "0 0 20/6 * * *"
 
 
 
