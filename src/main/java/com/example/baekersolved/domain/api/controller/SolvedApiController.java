@@ -74,5 +74,6 @@ public class SolvedApiController {
     @GetMapping("/v1/test2")
     public void test2() {
         solvedApiService.recentSolvingProblem(1L, "wy9295",64662791);
+
     }
 }
