@@ -15,6 +15,7 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate() {
+        System.setProperty("https.protocols", "TLSv1.3");
         RestTemplate restTemplate;
         try {
             restTemplate = new RestTemplate(clientHttpRequestFactory());

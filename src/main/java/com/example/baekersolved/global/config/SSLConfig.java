@@ -27,6 +27,7 @@ public class SSLConfig {
     public SSLConnectionSocketFactory getSSLSocketFactory()
             throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
 
+        System.setProperty("https.protocols", "TLSv1.2");
         TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                 return null;
