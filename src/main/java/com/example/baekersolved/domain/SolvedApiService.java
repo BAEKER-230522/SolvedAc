@@ -17,6 +17,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ import static com.example.baekersolved.exception.ErrorStatus.NOT_FOUND_USER;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
+@Qualifier("customerHttpClient")
 public class SolvedApiService {
     private final SolvedApiManager solvedApiManager;
 //    private final Feign feign;
