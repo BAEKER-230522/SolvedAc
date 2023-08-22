@@ -66,6 +66,7 @@ public class SolvedApiController {
             List<StudyRuleConsumeDto> memberDtoList = solvedApiService.getStudyRule();
             return RsData.successOf(memberDtoList);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new NotFoundException(NOT_FOUND_STUDY.getMsg());
         }
     }
