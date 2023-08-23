@@ -1,25 +1,33 @@
 package com.example.baekersolved.global.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
-
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.Collections;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Configuration
+@RequiredArgsConstructor
 public class RestTemplateConfig {
+    private final SSLConfig sslConfig;
 
     @Bean
     public RestTemplate restTemplate() {
         System.setProperty("https.protocols", "TLSv1.3");
+        try {
+            sslConfig.getSSLSocketFactory();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         RestTemplate restTemplate;
         try {
             restTemplate = new RestTemplate(clientHttpRequestFactory());
-        }catch (Exception e){
+        } catch (Exception e) {
             restTemplate = new RestTemplate();
         }
         restTemplate.setInterceptors(Collections.singletonList(
