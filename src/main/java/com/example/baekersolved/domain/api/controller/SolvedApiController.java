@@ -6,6 +6,7 @@ import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.SolvedResponse;
 import com.example.baekersolved.exception.exception.NotFoundException;
+import com.example.baekersolved.global.config.SSLConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
@@ -63,6 +64,8 @@ public class SolvedApiController {
     @GetMapping("/v1/test")
     public RsData<List<StudyRuleConsumeDto>> test() {
         try {
+            SSLConfig sslConfig = new SSLConfig();
+            sslConfig.disableSslVerification();
             List<StudyRuleConsumeDto> memberDtoList = solvedApiService.getStudyRule();
             return RsData.successOf(memberDtoList);
         } catch (Exception e) {

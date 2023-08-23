@@ -67,6 +67,9 @@ dependencies {
 
 	//selenium
 	implementation 'org.seleniumhq.selenium:selenium-java:4.10.0'
+
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
 }
 
 tasks.named('test') {

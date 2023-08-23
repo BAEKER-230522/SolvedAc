@@ -54,7 +54,6 @@ jasypt:
 #      defaultZone: http://${custom.server}:8761/eureka/
 
 
-
 server:
 #  ssl:
 #    enabled: true
