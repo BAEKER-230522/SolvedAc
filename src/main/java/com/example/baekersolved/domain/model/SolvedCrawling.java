@@ -160,11 +160,12 @@ public class SolvedCrawling {
     public UserRecentProblem missionSolvedCheck(String baekJoonId, int lastSolvedId) throws IOException, InterruptedException {
         WebDriver driver = setDriver();
         driver.get(BAEKJOON_BASE_URL + BAEKJOON_SOLVED_URL + baekJoonId + BAEKJOON_SOLVED_END);
-        By recentXpath = By.xpath("//*[@id=\"solution-64662791\"]/td[1]");
+
 
         List<RecentProblemDto> recentProblemDtos = new ArrayList<>();
         WebElement tBody = driver.findElement(By.xpath("//*[@id=\"status-table\"]/tbody"));
-        String recentProblemId = driver.findElement(recentXpath).getText();
+        String recentProblemId = tBody.findElements(By.tagName("td")).get(0).getText();
+        System.out.println(recentProblemId);
         tBody.findElements(By.tagName("tr")).forEach(tr -> {
             String solvedId = tr.findElements(By.tagName("td")).get(0).getText();
             String problemNum = tr.findElements(By.tagName("td")).get(2).getText();
