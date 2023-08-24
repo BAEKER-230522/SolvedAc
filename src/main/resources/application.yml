@@ -54,11 +54,14 @@ jasypt:
 #      defaultZone: http://${custom.server}:8761/eureka/
 
 
-
-
 server:
+#  ssl:
+#    enabled: true
+#    key-store-type: PKCS12
+#    key-store-password: ENC(ebfNAD4t/e7tlS39HOlQyAEP+mqX4uAL)
+#    key-store: keystore.p12
+  #    key-store: file:/keystore.p12
   port: 8084
-
 
 
 
@@ -78,4 +81,5 @@ scheduler:
 #custom:
 #  server: http://localhost:9000
 custom:
-  server: http://34.64.245.180 # Gateway 주소
+  server: https://34.64.245.180 # Gateway 주소
+  port: :443

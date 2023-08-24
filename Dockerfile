@@ -12,7 +12,8 @@ FROM mcr.microsoft.com/java/jre:17-zulu-ubuntu
 
 # 빌드 스테이지에서 생성된 JAR 파일 복사
 COPY --from=build /home/gradle/src/build/libs/*.jar /app.jar
-COPY --from=build /home/gradle/src/keystore.p12 /keystore.p12
+#COPY --from=build /home/gradle/src/keystore.p12 /keystore.p12
+
 # Google Chrome 및 ChromeDriver 설치
 RUN apt-get update && apt-get install -y \
   libssl-dev \

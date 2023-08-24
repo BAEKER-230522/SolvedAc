@@ -44,6 +44,8 @@ public class BatchConfiguration {
     private final RestTemplateConfig restTemplate;
     @Value("${custom.server}")
     private String GATEWAY_URL;
+    @Value("${custom.port}")
+    private String PORT;
 
     @Bean
     public Job solvedJob(JobRepository jobRepository) {
@@ -73,7 +75,7 @@ public class BatchConfiguration {
 //                    producer.sendMember(updateDto);
                     MemberSolvedUpdateDto updateDto = new MemberSolvedUpdateDto(member.getId(), dto.getBronze(), dto.getSilver(), dto.getGold(), dto.getDiamond(), dto.getRuby(), dto.getPlatinum());
                     RestTemplate restTemplate = restTemplate();
-                    restTemplate.postForObject(GATEWAY_URL + Address.MEMBER_SOLVED_UPDATE, updateDto, Void.class);
+                    restTemplate.postForObject(GATEWAY_URL + PORT + Address.MEMBER_SOLVED_UPDATE, updateDto, Void.class);
                 } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
@@ -110,7 +112,7 @@ public class BatchConfiguration {
                 // studyRule ->
                 RestTemplate restTemplate = restTemplate();
                 try {
-                    restTemplate.getForObject(GATEWAY_URL + STUDYRULE_UPDATE + studyRuleId + STUDYRULE_UPDATE_END, Void.class);
+                    restTemplate.getForObject(GATEWAY_URL + PORT + STUDYRULE_UPDATE + studyRuleId + STUDYRULE_UPDATE_END, Void.class);
                 } catch (HttpServerErrorException e) {
                     log.error(e.getMessage()); // 503 서버 에러
                 }
@@ -152,12 +154,12 @@ public class BatchConfiguration {
                     RestTemplate restTemplate = restTemplate();
                     int recentProblemId = Integer.parseInt(userRecentProblem.recentProblemId());
                     RecentUpdateDto dto = new RecentUpdateDto(member.getId(), recentProblemId);
-                    restTemplate.postForObject(GATEWAY_URL + MEMBER_LASTSOLVEDID_UPDATE, dto, Void.class);
+                    restTemplate.postForObject(GATEWAY_URL + PORT + MEMBER_LASTSOLVEDID_UPDATE, dto, Void.class);
 
                     List<ProblemNumberDto> problemNumberDtos = userRecentProblem.recentProblemDtos().stream()
                             .map(o -> new ProblemNumberDto(o.problemId())).toList();
 
-                    restTemplate.postForObject(GATEWAY_URL + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
+                    restTemplate.postForObject(GATEWAY_URL + PORT + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
 
                 } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
