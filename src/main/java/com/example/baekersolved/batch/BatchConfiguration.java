@@ -134,7 +134,7 @@ public class BatchConfiguration {
     @JobScope
     @Bean
     public Step lastCrawling(JobRepository jobRepository) {
-        return new StepBuilder("step1", jobRepository)
+        return new StepBuilder("lastSolved", jobRepository)
                 .tasklet(lastSolvedCrawling(), transactionManager).build();
     }
 
@@ -157,7 +157,7 @@ public class BatchConfiguration {
                     restTemplate.postForObject(GATEWAY_URL + PORT + MEMBER_LASTSOLVEDID_UPDATE, dto, Void.class);
 
                     List<ProblemNumberDto> problemNumberDtos = userRecentProblem.recentProblemDtos().stream()
-                            .map(o -> new ProblemNumberDto(o.problemId())).toList();
+                            .map(o -> new ProblemNumberDto(o.problemId(), o.time(), o.memory())).toList();
 
                     restTemplate.postForObject(GATEWAY_URL + PORT + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
 

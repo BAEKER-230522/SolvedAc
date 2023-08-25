@@ -170,9 +170,10 @@ public class SolvedCrawling {
             String solvedId = tr.findElements(By.tagName("td")).get(0).getText();
             String problemNum = tr.findElements(By.tagName("td")).get(2).getText();
             if (lastSolvedId < Integer.parseInt(solvedId)) {
-//                System.out.println("memory" + tr.findElements(By.tagName("td")).get(4).getText());
-//                System.out.println("time" + tr.findElements(By.tagName("td")).get(5).getText());
-                RecentProblemDto dto = new RecentProblemDto(solvedId, problemNum); // 최근 푼 문제 dto
+                String memory = tr.findElements(By.tagName("td")).get(4).getText();
+                String time = tr.findElements(By.tagName("td")).get(5).getText();
+
+                RecentProblemDto dto = new RecentProblemDto(solvedId, problemNum,memory,time); // 최근 푼 문제 dto
                 recentProblemDtos.add(dto);
             }
         });
