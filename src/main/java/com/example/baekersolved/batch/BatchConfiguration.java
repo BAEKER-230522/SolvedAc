@@ -1,6 +1,5 @@
 package com.example.baekersolved.batch;
 
-import com.example.baekersolved.constants.Address;
 import com.example.baekersolved.domain.SolvedApiService;
 import com.example.baekersolved.domain.dto.ProblemNumberDto;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
@@ -75,7 +74,7 @@ public class BatchConfiguration {
 //                    producer.sendMember(updateDto);
                     MemberSolvedUpdateDto updateDto = new MemberSolvedUpdateDto(member.getId(), dto.getBronze(), dto.getSilver(), dto.getGold(), dto.getDiamond(), dto.getRuby(), dto.getPlatinum());
                     RestTemplate restTemplate = restTemplate();
-                    restTemplate.postForObject(GATEWAY_URL + PORT + Address.MEMBER_SOLVED_UPDATE, updateDto, Void.class);
+                    restTemplate.postForObject(GATEWAY_URL + PORT + MEMBER_SOLVED_UPDATE, updateDto, Void.class);
                 } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
@@ -86,6 +85,7 @@ public class BatchConfiguration {
 
 
     @Bean
+    @Deprecated
     public Job studyJob(JobRepository repository) {
         return new JobBuilder("StudyJob", repository)
                 .incrementer(new RunIdIncrementer())
@@ -95,6 +95,7 @@ public class BatchConfiguration {
 
     @Bean
     @JobScope
+    @Deprecated
     public Step studyStep(JobRepository repository) {
         return new StepBuilder("StudyStep", repository)
                 .tasklet(studyTasklet(), transactionManager)
@@ -103,6 +104,7 @@ public class BatchConfiguration {
 
     @Bean
     @StepScope
+    @Deprecated
     public Tasklet studyTasklet() {
         return (contribution, chunkContext) -> {
             List<StudyRuleConsumeDto> dtoList = solvedApiService.getStudyRule();

@@ -145,7 +145,7 @@ public class SolvedApiService {
         JSONArray jsonArray = (JSONArray) parser.parse(jsonObject.get("data").toString());
         for (Object o : jsonArray) {
             JSONObject object = (JSONObject) o;
-            StudyRuleConsumeDto dto = new StudyRuleConsumeDto(Long.parseLong(object.get("id").toString()), object.get("name").toString(),object.get("about").toString() ,Long.parseLong(object.get("ruleId").toString()));
+            StudyRuleConsumeDto dto = new StudyRuleConsumeDto(Long.parseLong(object.get("id").toString()), object.get("name").toString(),object.get("about").toString());
             list.add(dto);
         }
         return list;
