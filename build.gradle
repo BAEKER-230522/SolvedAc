@@ -48,6 +48,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-batch")
 	implementation("org.springframework.boot:spring-boot-starter-quartz")
 	testImplementation 'org.awaitility:awaitility:4.2.0'
+	testImplementation 'org.springframework.batch:spring-batch-test'
 
 	// jasypt
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
