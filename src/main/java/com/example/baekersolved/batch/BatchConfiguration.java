@@ -46,7 +46,7 @@ public class BatchConfiguration {
     @Value("${custom.port}")
     private String PORT;
 
-    @Bean
+    @Bean("solvedJob")
     public Job solvedJob(JobRepository jobRepository) {
         return new JobBuilder("solved", jobRepository)
                 .incrementer(new RunIdIncrementer())
@@ -84,10 +84,10 @@ public class BatchConfiguration {
     }
 
 
-    @Bean
+    @Bean("studyJob")
     @Deprecated
     public Job studyJob(JobRepository repository) {
-        return new JobBuilder("StudyJob", repository)
+        return new JobBuilder("studyJob", repository)
                 .incrementer(new RunIdIncrementer())
                 .start(studyStep(repository))
                 .build();
@@ -97,7 +97,7 @@ public class BatchConfiguration {
     @JobScope
     @Deprecated
     public Step studyStep(JobRepository repository) {
-        return new StepBuilder("StudyStep", repository)
+        return new StepBuilder("studyStep", repository)
                 .tasklet(studyTasklet(), transactionManager)
                 .build();
     }
@@ -125,7 +125,7 @@ public class BatchConfiguration {
     }
 
 
-    @Bean
+    @Bean("lastSolvedJob")
     public Job lastSolvedJob(JobRepository jobRepository) {
         return new JobBuilder("solved", jobRepository)
                 .incrementer(new RunIdIncrementer())

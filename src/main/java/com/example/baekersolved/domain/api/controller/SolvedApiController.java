@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
-import static com.example.baekersolved.exception.ErrorStatus.NOT_FOUND_STUDY;
+import static com.example.baekersolved.exception.ErrorResponse.NOT_FOUND_STUDY;
+
 
 @RestController
 @RequiredArgsConstructor
