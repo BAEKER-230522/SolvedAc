@@ -7,7 +7,6 @@ import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
 import com.example.baekersolved.domain.dto.response.UserRecentProblem;
 import com.example.baekersolved.domain.model.SolvedApiManager;
 import com.example.baekersolved.domain.model.SolvedCrawling;
-import com.example.baekersolved.exception.ErrorStatus;
 import com.example.baekersolved.exception.exception.CrawlingException;
 import com.example.baekersolved.exception.exception.NotFoundException;
 import com.example.baekersolved.global.config.RestTemplateConfig;
@@ -30,7 +29,8 @@ import java.util.List;
 
 import static com.example.baekersolved.constants.Address.MEMBER_ALL;
 import static com.example.baekersolved.constants.Address.STUDYRULE_ALL;
-import static com.example.baekersolved.exception.ErrorStatus.NOT_FOUND_USER;
+import static com.example.baekersolved.exception.ErrorResponse.CRAWLING_ERROR;
+import static com.example.baekersolved.exception.ErrorResponse.NOT_FOUND_USER;
 
 @Service
 @Transactional(readOnly = true)
@@ -174,7 +174,7 @@ public class SolvedApiService {
         try {
             return crawling.missionSolvedCheck(baekjoonId, lastSolvedId);
         } catch (IOException | InterruptedException e) {
-            throw new CrawlingException(ErrorStatus.CRAWLING_ERROR.getMsg());
+            throw new CrawlingException(CRAWLING_ERROR.getMsg());
         }
     }
 //    public List<StudyRuleDto> getStudyRuleDtoList() {
