@@ -81,5 +81,5 @@ scheduler:
 #custom:
 #  server: http://localhost:9000
 custom:
-  server: https://34.64.245.180 # Gateway 주소
+  server: https://bk.1ll.ca/ # Gateway 주소
   port: :443
