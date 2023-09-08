@@ -37,7 +37,7 @@ scheduler:
   cron:
     member: "0 0 0/4 * * *"
     study: "0 0 1/4 * * *"
-    lastSolved: "0 30 22 * * *"
+    lastSolved: "0 0 2/4 * * *"
 
 
 
