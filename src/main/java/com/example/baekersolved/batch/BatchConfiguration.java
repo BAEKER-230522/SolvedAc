@@ -144,9 +144,11 @@ public class BatchConfiguration {
     @Bean
     public Tasklet lastSolvedCrawling() {
         return ((contribution, chunkContext) -> {
+            log.info("############### lastSolvedCrawling ###############");
             List<MemberDto> memberList = solvedApiService.getMemberDtoList();
             for (MemberDto member : memberList) {
                 try {
+                    log.info(member.getBaekJoonName() + "데이터 처리중");
                     Thread.sleep(1000);
                     int lastSolvedProblemId = member.getLastSolvedProblemId();
                     String baekJoonName = member.getBaekJoonName();
@@ -157,12 +159,12 @@ public class BatchConfiguration {
                     int recentProblemId = Integer.parseInt(userRecentProblem.recentProblemId());
                     RecentUpdateDto dto = new RecentUpdateDto(member.getId(), recentProblemId);
                     restTemplate.postForObject(GATEWAY_URL + PORT + MEMBER_LASTSOLVEDID_UPDATE, dto, Void.class);
-
+                    log.info("Member쪽 이상 무" + dto.toString());
                     List<ProblemNumberDto> problemNumberDtos = userRecentProblem.recentProblemDtos().stream()
                             .map(o -> new ProblemNumberDto(o.problemId(), o.time(), o.memory())).toList();
 
                     restTemplate.postForObject(GATEWAY_URL + PORT + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
-
+                    log.info(problemNumberDtos.toString() + "푼문제 잘 품");
                 } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
