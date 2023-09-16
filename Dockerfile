@@ -29,6 +29,6 @@ RUN apt-get update && apt-get install -y \
   ./google-chrome-stable_current_amd64.deb \
   /tmp/chromedriver.zip
 
-RUN chmod +x /usr/bin/chromedriver-linux64
+RUN chmod +x /usr/bin/chrome-linux64
 
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} ${JAVA_ACTIVE} -jar /app.jar"]
