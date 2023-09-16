@@ -166,6 +166,7 @@ public class BatchConfiguration {
                     restTemplate.postForObject(GATEWAY_URL + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
                     log.info(problemNumberDtos.toString() + "푼문제 잘 품");
                 } catch (Exception e) {
+                    e.printStackTrace();
                     log.error("###############" + e.getMessage() + "###############");
                 }
             }
