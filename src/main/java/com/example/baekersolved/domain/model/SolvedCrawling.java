@@ -225,7 +225,7 @@ public class SolvedCrawling {
             process.waitFor();
             System.setProperty("webdriver.chrome.driver", "drivers/chromedriver_mac");
         } else if (os.contains("linux")) {
-            System.setProperty("webdriver.chrome.driver", "/usr/bin/chrome-linux64/chrome");
+            System.setProperty("webdriver.chrome.driver", "/usr/bin/chrome-linux64/chromedriver");
         }
 
         ChromeOptions chromeOptions = new ChromeOptions();
