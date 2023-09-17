@@ -53,7 +53,7 @@ RUN apt-get update && apt-get install -y \
   curl && \
   wget "https://www.slimjet.com/chrome/download-chrome.php?file=files%2F104.0.5112.102%2Fgoogle-chrome-stable_current_amd64.deb" -O google-chrome-stable_current_amd64.deb && \
   apt -y install ./google-chrome-stable_current_amd64.deb && \
-  wget -O /tmp/chromedriver.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/115.0.5790.170/linux64/chromedriver-linux64.zip && \
+  wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/104.0.5112.20/chromedriver_linux64.zip && \
   unzip /tmp/chromedriver.zip -d /usr/bin && \
   rm -rf /var/lib/apt/lists/* \
   ./google-chrome-stable_current_amd64.deb \
