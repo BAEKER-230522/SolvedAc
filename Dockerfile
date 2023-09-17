@@ -36,7 +36,7 @@
 FROM gradle:7.6.1-jdk17 AS build
 COPY . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle clean build --no-daemon
+ARG JAR_FILE=build/libs/*.jar
 
 # 실행 스테이지
 FROM mcr.microsoft.com/java/jre:17-zulu-ubuntu
