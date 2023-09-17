@@ -60,7 +60,7 @@ RUN apt-get update && apt-get install -y \
   /tmp/chromedriver.zip
 
 # ChromeDriver 실행 권한 부여
-RUN chmod +x /usr/bin/chromedriver-linux64
+RUN chmod +x /usr/bin/chromedriver
 
 # 애플리케이션 실행
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} ${JAVA_ACTIVE} -jar /app.jar"]
