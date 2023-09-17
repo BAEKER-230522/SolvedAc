@@ -10,6 +10,7 @@ public class Address {
     public static final String STUDYRULE_UPDATE = "/api/studyrule/v1/studyrules/"; // kafka
     public static final String STUDYRULE_UPDATE_END = "/solved"; // kakfa
     public static final String STUDY_UPDATE_URL = "/api/study/v1/mission/"; // + memberId
+    public static final String STUDY_UPDATE_MEMBER = "/api/study/v1/solved";
 
     // 외부 주소
     public static final String SOLVED_BASE_URL = "https://solved.ac";
