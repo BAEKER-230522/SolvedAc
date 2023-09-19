@@ -75,6 +75,9 @@ public class BatchConfiguration {
                     MemberSolvedUpdateDto updateDto = new MemberSolvedUpdateDto(member.getId(), dto.getBronze(), dto.getSilver(), dto.getGold(), dto.getDiamond(), dto.getRuby(), dto.getPlatinum());
                     RestTemplate restTemplate = restTemplate();
                     restTemplate.postForObject(GATEWAY_URL + MEMBER_SOLVED_UPDATE, updateDto, Void.class);
+                    log.info("Member쪽 이상 무" + updateDto.toString());
+                    restTemplate.postForObject(GATEWAY_URL + STUDY_UPDATE_MEMBER, updateDto, Void.class);
+                    log.info("Study쪽 이상 무" + updateDto.toString());
                 } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
                 }
@@ -166,6 +169,7 @@ public class BatchConfiguration {
                     restTemplate.postForObject(GATEWAY_URL + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
                     log.info(problemNumberDtos.toString() + "푼문제 잘 품");
                 } catch (Exception e) {
+                    e.printStackTrace();
                     log.error("###############" + e.getMessage() + "###############");
                 }
             }
