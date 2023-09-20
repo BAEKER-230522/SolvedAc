@@ -1,5 +1,6 @@
 package com.example.baekersolved.domain.model;
 
+import com.example.baekersolved.domain.dto.response.SolvedResponse;
 import com.example.baekersolved.exception.exception.HttpResponseException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +71,7 @@ public class SolvedApiManager {
      * param : 문제 번호
      * return : 문제 제목
      */
-    public String getSubject(int problemId) throws Exception{
+    public SolvedResponse getSubjectAndLevel(int problemId) throws Exception{
         String jsonString = null;
 
         try {
@@ -90,6 +91,8 @@ public class SolvedApiManager {
 
         JSONObject jsonBody = (JSONObject) jsonObject;
 
-        return jsonBody.get("titleKo").toString();
+        String subject = jsonBody.get("titleKo").toString();
+        int level = Integer.parseInt(jsonBody.get("level").toString());
+        return new SolvedResponse(subject, level);
     }
 }

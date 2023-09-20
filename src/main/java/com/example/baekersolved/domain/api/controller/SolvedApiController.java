@@ -48,8 +48,7 @@ public class SolvedApiController {
     @GetMapping("/v1/{problemId}")
 //    @Deprecated
     public RsData<SolvedResponse> getSolvedSubject(@PathVariable("problemId") Integer problemId) throws Exception {
-        String solvedSubject = solvedApiService.getSolvedSubject(problemId);
-        return RsData.successOf(new SolvedResponse(solvedSubject));
+        return RsData.successOf(solvedApiService.getSolvedSubjectAndLevel(problemId));
     }
 
     @GetMapping("/v1/{name}/count")
