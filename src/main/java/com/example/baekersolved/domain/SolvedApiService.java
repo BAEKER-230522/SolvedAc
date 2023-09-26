@@ -4,6 +4,7 @@ import com.example.baekersolved.domain.dto.common.BaekJoonDto;
 import com.example.baekersolved.domain.dto.common.MemberDto;
 import com.example.baekersolved.domain.dto.common.RsData;
 import com.example.baekersolved.domain.dto.request.StudyRuleConsumeDto;
+import com.example.baekersolved.domain.dto.response.SolvedResponse;
 import com.example.baekersolved.domain.dto.response.UserRecentProblem;
 import com.example.baekersolved.domain.model.SolvedApiManager;
 import com.example.baekersolved.domain.model.SolvedCrawling;
@@ -152,8 +153,8 @@ public class SolvedApiService {
     }
 
 //    @Deprecated
-    public String getSolvedSubject(int problemId) throws Exception{
-        return solvedApiManager.getSubject(problemId);
+    public SolvedResponse getSolvedSubjectAndLevel(int problemId) throws Exception{
+        return solvedApiManager.getSubjectAndLevel(problemId);
     }
 
     /**
