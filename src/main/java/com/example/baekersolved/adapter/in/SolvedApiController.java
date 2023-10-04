@@ -1,4 +1,4 @@
-package com.example.baekersolved.domain.api.controller;
+package com.example.baekersolved.adapter.in;
 
 import com.example.baekersolved.domain.SolvedApiService;
 import com.example.baekersolved.domain.dto.common.BaekJoonDto;
