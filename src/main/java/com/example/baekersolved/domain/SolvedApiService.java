@@ -28,8 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.baekersolved.constants.Address.MEMBER_ALL;
-import static com.example.baekersolved.constants.Address.STUDYRULE_ALL;
+import static com.example.baekersolved.constants.Address.*;
 import static com.example.baekersolved.exception.ErrorResponse.CRAWLING_ERROR;
 import static com.example.baekersolved.exception.ErrorResponse.NOT_FOUND_USER;
 
@@ -116,7 +115,7 @@ public class SolvedApiService {
      */
     public List<MemberDto> getMemberDtoList() throws ParseException {
         List<MemberDto> list = new ArrayList<>();
-        String response = restTemplate().getForObject(GATEWAY_URL /*+ PORT*/ + MEMBER_ALL, String.class);
+        String response = restTemplate().getForObject(GATEWAY_URL + MEMBER_BASE_URL + MEMBER_ALL, String.class);
 
         JSONParser parser = new JSONParser();
 
@@ -138,7 +137,7 @@ public class SolvedApiService {
      */
     public List<StudyRuleConsumeDto> getStudyRule() throws ParseException {
         List<StudyRuleConsumeDto> list = new ArrayList<>();
-        String response = restTemplate().getForObject(GATEWAY_URL /*+ PORT*/ + STUDYRULE_ALL, String.class);
+        String response = restTemplate().getForObject(GATEWAY_URL+ STUDYRULE_BASE_URL + STUDYRULE_ALL, String.class);
 
         JSONParser parser = new JSONParser();
 
