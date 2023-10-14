@@ -51,18 +51,19 @@ public class BatchConfiguration {
         return new JobBuilder("solved", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(solvedStep(jobRepository))
+                .next(memberRankingUpdateStep(jobRepository))
                 .build();
     }
     @Bean
     @JobScope
     public Step solvedStep(JobRepository jobRepository) {
         return new StepBuilder("step1", jobRepository)
-                .tasklet(tasklet(), transactionManager).build();
+                .tasklet(memberAndStudySolvedUpdate(), transactionManager).build();
     }
 
     @Bean
     @StepScope
-    public Tasklet tasklet() {
+    public Tasklet memberAndStudySolvedUpdate() {
         return ((contribution, chunkContext) -> {
             List<MemberDto> memberList = solvedApiService.getMemberDtoList();
             for (MemberDto member : memberList) {
@@ -74,9 +75,9 @@ public class BatchConfiguration {
 //                    producer.sendMember(updateDto);
                     MemberSolvedUpdateDto updateDto = new MemberSolvedUpdateDto(member.getId(), dto.getBronze(), dto.getSilver(), dto.getGold(), dto.getDiamond(), dto.getRuby(), dto.getPlatinum());
                     RestTemplate restTemplate = restTemplate();
-                    restTemplate.postForObject(GATEWAY_URL + MEMBER_SOLVED_UPDATE, updateDto, Void.class);
+                    restTemplate.postForObject(GATEWAY_URL + MEMBER_BASE_URL +MEMBER_SOLVED_UPDATE, updateDto, Void.class);
                     log.info("Member쪽 이상 무" + updateDto.toString());
-                    restTemplate.postForObject(GATEWAY_URL + STUDY_UPDATE_MEMBER, updateDto, Void.class);
+                    restTemplate.postForObject(GATEWAY_URL + STUDY_BASE_URL +STUDY_UPDATE_MEMBER, updateDto, Void.class);
                     log.info("Study쪽 이상 무" + updateDto.toString());
                 } catch (Exception e) {
                     log.error("###############" + e.getMessage() + "###############");
@@ -86,6 +87,22 @@ public class BatchConfiguration {
         } );
     }
 
+    @Bean
+    @JobScope
+    public Step memberRankingUpdateStep(JobRepository jobRepository) {
+        return new StepBuilder("rankingUpdate", jobRepository)
+                .tasklet(memberRankingUpdate(), transactionManager).build();
+    }
+
+    @Bean
+    @StepScope
+    public Tasklet memberRankingUpdate() {
+        return ((contribution, chunkContext) -> {
+            RestTemplate restTemplate = restTemplate();
+            restTemplate.patchForObject(GATEWAY_URL + MEMBER_BASE_URL + MEMBER_UPDATE_RANKING, null,Void.class);
+            return RepeatStatus.FINISHED;
+        });
+    }
 
     @Bean("studyJob")
     @Deprecated
@@ -117,7 +134,7 @@ public class BatchConfiguration {
                 // studyRule ->
                 RestTemplate restTemplate = restTemplate();
                 try {
-                    restTemplate.getForObject(GATEWAY_URL + STUDYRULE_UPDATE + studyRuleId + STUDYRULE_UPDATE_END, Void.class);
+                    restTemplate.getForObject(GATEWAY_URL + STUDYRULE_BASE_URL + STUDYRULE_UPDATE + studyRuleId + STUDYRULE_UPDATE_END, Void.class);
                 } catch (HttpServerErrorException e) {
                     log.error(e.getMessage()); // 503 서버 에러
                 }
@@ -133,6 +150,7 @@ public class BatchConfiguration {
         return new JobBuilder("solved", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(lastCrawling(jobRepository))
+                .next(studyRankingUpdateStep(jobRepository))
                 .build();
     }
 
@@ -161,12 +179,12 @@ public class BatchConfiguration {
                     RestTemplate restTemplate = restTemplate();
                     int recentProblemId = Integer.parseInt(userRecentProblem.recentProblemId());
                     RecentUpdateDto dto = new RecentUpdateDto(member.getId(), recentProblemId);
-                    restTemplate.postForObject(GATEWAY_URL + MEMBER_LASTSOLVEDID_UPDATE, dto, Void.class);
+                    restTemplate.postForObject(GATEWAY_URL + MEMBER_BASE_URL +MEMBER_LASTSOLVEDID_UPDATE, dto, Void.class);
                     log.info("Member쪽 이상 무" + dto.toString());
                     List<ProblemNumberDto> problemNumberDtos = userRecentProblem.recentProblemDtos().stream()
                             .map(o -> new ProblemNumberDto(o.problemId(), o.time(), o.memory())).toList();
 
-                    restTemplate.postForObject(GATEWAY_URL + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
+                    restTemplate.postForObject(GATEWAY_URL + STUDY_BASE_URL + STUDY_UPDATE_URL + member.getId(), problemNumberDtos, Void.class);
                     log.info(problemNumberDtos.toString() + "푼문제 잘 품");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -176,6 +194,23 @@ public class BatchConfiguration {
             return RepeatStatus.FINISHED;
         });
     }
+    @Bean
+    @JobScope
+    public Step studyRankingUpdateStep(JobRepository jobRepository) {
+        return new StepBuilder("studyRankingUpdate", jobRepository)
+                .tasklet(memberRankingUpdate(), transactionManager).build();
+    }
+
+    @Bean
+    @StepScope
+    public Tasklet studyRankingUpdate() {
+        return ((contribution, chunkContext) -> {
+            RestTemplate restTemplate = restTemplate();
+            restTemplate.patchForObject(GATEWAY_URL + STUDY_BASE_URL + STUDY_UPDATE_RANKING, null,Void.class);
+            return RepeatStatus.FINISHED;
+        });
+    }
+
 
     private RestTemplate restTemplate() {
         return restTemplate.restTemplate();
