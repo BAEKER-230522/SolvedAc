@@ -115,7 +115,7 @@ public class SolvedApiService {
      */
     public List<MemberDto> getMemberDtoList() throws ParseException {
         List<MemberDto> list = new ArrayList<>();
-        String response = restTemplate().getForObject(GATEWAY_URL /*+ PORT*/ + MEMBER_BASE_URL + MEMBER_ALL, String.class);
+        String response = restTemplate().getForObject(GATEWAY_URL + MEMBER_BASE_URL + MEMBER_ALL, String.class);
 
         JSONParser parser = new JSONParser();
 
@@ -137,7 +137,7 @@ public class SolvedApiService {
      */
     public List<StudyRuleConsumeDto> getStudyRule() throws ParseException {
         List<StudyRuleConsumeDto> list = new ArrayList<>();
-        String response = restTemplate().getForObject(GATEWAY_URL /*+ PORT*/+ STUDYRULE_BASE_URL + STUDYRULE_ALL, String.class);
+        String response = restTemplate().getForObject(GATEWAY_URL+ STUDYRULE_BASE_URL + STUDYRULE_ALL, String.class);
 
         JSONParser parser = new JSONParser();
 
